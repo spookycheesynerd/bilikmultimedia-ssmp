@@ -534,7 +534,7 @@
                             </h3>
                             <span class="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-md font-bold">Akses Khas Admin</span>
                         </div>
-                        <p class="text-xs text-purple-900/80 font-medium">Pilih tarikh khusus di hadapan (diluar minggu biasa) untuk kunci tempahan program khas sekolah seperti Kejohanan, Bengkel Utama, atau Mesyuarat Pentadbir.</p>
+                        <p class="text-xs text-purple-900/80 font-medium">Pilih tarikh khusus di hadapan (diluar minggu biasa) untuk kunci tempahan awal sekolah seperti Kejohanan, Bengkel Utama, atau Mesyuarat Pentadbir.</p>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div>
@@ -542,7 +542,7 @@
                                 <input type="date" id="adminAdvanceDate" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-bold text-purple-900 bg-white focus:ring-2 focus:ring-purple-500"/>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Program Khas:</label>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Program:</label>
                                 <input type="text" id="adminAdvanceProgramName" placeholder="Cth: Bengkel Analisis Prestasi Atlet SSMP" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-semibold text-slate-800 bg-white"/>
                             </div>
                             <div>
@@ -566,7 +566,7 @@
                             </div>
                             <div class="col-span-2 flex items-end">
                                 <button onclick="saveAdminAdvanceBooking()" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-black py-2.5 px-4 rounded-xl text-xs cursor-pointer transition shadow-xs flex items-center justify-center gap-2">
-                                    <i data-lucide="calendar-plus" class="w-4 h-4"></i> Simpan Tempahan Program Khas
+                                    <i data-lucide="calendar-plus" class="w-4 h-4"></i> Simpan Tempahan Program
                                 </button>
                             </div>
                         </div>
@@ -1017,7 +1017,7 @@
                 return;
             }
             if (!programName) {
-                showAlert('error', 'Sila masukkan nama program khas.');
+                showAlert('error', 'Sila masukkan nama program.');
                 return;
             }
             if (startSlot > endSlot) {
@@ -1030,12 +1030,12 @@
             const newBooking = {
                 id: bookingId,
                 teacher: officer || 'Pentadbiran SSMP',
-                classLevel: 'PROGRAM KHAS',
+                classLevel: 'PROGRAM',
                 className: 'SSMP',
                 date: dateVal,
                 startSlot: startSlot,
                 endSlot: endSlot,
-                purpose: `[ADVANCE PROGRAM] ${programName}`
+                purpose: `[EARLY BOOKING] ${programName}`
             };
 
             bookings.push(newBooking);
@@ -1048,7 +1048,7 @@
             document.getElementById('adminAdvanceProgramName').value = '';
             document.getElementById('adminAdvanceOfficer').value = '';
 
-            showAlert('success', `Tempahan advance program khas berjaya dikunci pada tarikh ${formatDateLabel(dateVal)}!`);
+            showAlert('success', `Tempahan awal program berjaya dikunci pada tarikh ${formatDateLabel(dateVal)}!`);
             sendSystemNotification('Tempahan Khas Advance Program', `Program '${programName}' telah dijadualkan pada ${formatDateLabel(dateVal)}.`);
         }
 
