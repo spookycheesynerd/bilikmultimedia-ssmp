@@ -6,12 +6,12 @@
     <title>Bilik Multimedia SSMP</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons Library -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons Library (Explicit UMD Bundle) -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Krub:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Josefin+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Krub:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         @keyframes floatPolkaDots {
@@ -31,7 +31,7 @@
             100% { transform: scale(1); opacity: 1; }
         }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Josefin Sans', 'Inter', sans-serif;
             background-color: #faf5ff;
             background-image: radial-gradient(#c084fc 0.85px, transparent 0.85px), radial-gradient(#c084fc 0.85px, #faf5ff 0.85px);
             background-size: 30px 30px;
@@ -50,11 +50,11 @@
             animation: cartoonBounce 3.5s ease-in-out infinite;
         }
         .font-outfit, .font-arvo, .font-heading {
-            font-family: 'Krub', sans-serif;
+            font-family: 'Josefin Sans', sans-serif;
             letter-spacing: -0.01em;
         }
         .font-jakarta {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Josefin Sans', 'Plus Jakarta Sans', sans-serif;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
@@ -179,9 +179,10 @@
                         <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
                             Bilik Multimedia SSMP
                         </h1>
-                        <p class="text-xs text-purple-100 font-medium leading-relaxed bg-black/10 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
-                            Sistem Tempahan Rasmi (Pilih Slot Mula & Slot Akhir • Tempahan Boleh Dibuat Untuk Hari Ini & Esok).
-                        </p>
+            <!-- Subtitle/Info Banner text update -->
+            <p class="text-xs sm:text-sm text-purple-100 opacity-90 max-w-2xl leading-relaxed">
+              Sistem Tempahan Rasmi (Pilih Slot Mula & Slot Akhir • Tempahan Dibuka Untuk Hari Semasa & Esok Sahaja).
+            </p>
                     </div>
 
                     <!-- Mascot Graphic & Quick Stats -->
@@ -354,9 +355,9 @@
                                         onchange="changeSelectedDate(this.value)"
                                         class="w-full p-2.5 border border-purple-300 rounded-xl text-xs font-black bg-purple-50 text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
                                     >
-                                        <!-- Dynamic Date Options -->
+                                        <!-- Dynamic Date Options (Restricted to Today & Tomorrow for teachers) -->
                                     </select>
-                                    <span class="text-[11px] text-purple-700 font-bold mt-1 block">📌 Boleh tempah untuk Hari Ini & Esok (1 hari lebih awal).</span>
+                                    <span class="text-[11px] text-purple-700 font-bold mt-1 block">📌 Tempahan guru terhad untuk Hari Ini & Esok sahaja. (Untuk tempahan lain sila maklumkan pada PIC).</span>
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-2">
@@ -525,6 +526,52 @@
                         </div>
                     </div>
 
+                    <!-- Modul Khas Admin: Tempahan Advance Program Pentadbir -->
+                    <div class="bg-purple-50/80 border-2 border-purple-200 p-5 rounded-2xl space-y-4 shadow-2xs">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-black text-purple-950 uppercase tracking-wide flex items-center gap-2">
+                                <span>📅</span> Tempahan Khas Advance Program Pentadbir (Special Event Locking)
+                            </h3>
+                            <span class="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-md font-bold">Akses Khas Admin</span>
+                        </div>
+                        <p class="text-xs text-purple-900/80 font-medium">Pilih tarikh khusus di hadapan (diluar minggu biasa) untuk kunci tempahan program khas sekolah seperti Kejohanan, Bengkel Utama, atau Mesyuarat Pentadbir.</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Tarikh Khas Program:</label>
+                                <input type="date" id="adminAdvanceDate" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-bold text-purple-900 bg-white focus:ring-2 focus:ring-purple-500"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Program Khas:</label>
+                                <input type="text" id="adminAdvanceProgramName" placeholder="Cth: Bengkel Analisis Prestasi Atlet SSMP" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-semibold text-slate-800 bg-white"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pegawai / Penyelaras:</label>
+                                <input type="text" id="adminAdvanceOfficer" placeholder="Cth: Unit Sukan / Pentadbiran" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-semibold text-slate-800 bg-white"/>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 pt-1">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Slot Mula:</label>
+                                <select id="adminAdvanceStartSlot" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-bold bg-white text-purple-900">
+                                    <!-- Populated in JS -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Slot Akhir:</label>
+                                <select id="adminAdvanceEndSlot" class="w-full p-2 border border-purple-200 rounded-xl text-xs font-bold bg-white text-purple-900">
+                                    <!-- Populated in JS -->
+                                </select>
+                            </div>
+                            <div class="col-span-2 flex items-end">
+                                <button onclick="saveAdminAdvanceBooking()" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-black py-2.5 px-4 rounded-xl text-xs cursor-pointer transition shadow-xs flex items-center justify-center gap-2">
+                                    <i data-lucide="calendar-plus" class="w-4 h-4"></i> Simpan Tempahan Program Khas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Modul 2: Lihat & Batal Slot Tempahan -->
                     <div class="space-y-3 pt-2">
                         <div class="flex items-center justify-between">
@@ -662,6 +709,9 @@
             { id: 15, label: "Slot 15", time: "14:30 - 15:00" }
         ];
 
+        // Malay Day names
+        const MALAY_DAYS = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+
         // Master state for active bookings
         let bookings = [];
 
@@ -677,45 +727,136 @@
         let selectedEndSlot = null;
         let currentAnnouncement = localStorage.getItem('ssmp_announcement') || "";
 
+        // Helper to format Date object into YYYY-MM-DD
+        function formatYMD(dateObj) {
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         // Helper to get local YYYY-MM-DD date string for today
         function getTodayString() {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return formatYMD(new Date());
         }
 
         // Helper to get local YYYY-MM-DD date string for tomorrow
         function getTomorrowString() {
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
-            const year = tomorrow.getFullYear();
-            const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
-            const day = String(tomorrow.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return formatYMD(tomorrow);
         }
 
         function formatDateLabel(dateStr) {
+            if (!dateStr) return '';
             const todayStr = getTodayString();
             const tomorrowStr = getTomorrowString();
             
             const parts = dateStr.split('-');
-            const formatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            if (parts.length !== 3) return dateStr;
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1;
+            const day = parseInt(parts[2]);
+            const dateObj = new Date(year, month, day);
+
+            const dayName = MALAY_DAYS[dateObj.getDay()];
+            const formatted = `${dayName} (${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year})`;
 
             if (dateStr === todayStr) {
-                return `Hari Ini (${formatted})`;
+                return `Hari Ini - ${formatted}`;
             } else if (dateStr === tomorrowStr) {
-                return `Esok (${formatted})`;
+                return `Esok - ${formatted}`;
+            } else {
+                return formatted;
             }
-            return formatted;
+        }
+
+        // Generate weekly date options for dropdown selectors
+        function generateWeeklyDateOptions() {
+            const options = [];
+            const dateSet = new Set();
+
+            // Generate options for today and the next 7 days
+            const today = new Date();
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(today);
+                d.setDate(today.getDate() + i);
+                const ymd = formatYMD(d);
+                if (!dateSet.has(ymd)) {
+                    dateSet.add(ymd);
+                    options.push({
+                        value: ymd,
+                        label: formatDateLabel(ymd)
+                    });
+                }
+            }
+
+            // Include any custom advance dates present in existing bookings
+            if (Array.isArray(bookings)) {
+                bookings.forEach(b => {
+                    if (b && b.date && !dateSet.has(b.date)) {
+                        dateSet.add(b.date);
+                        options.push({
+                            value: b.date,
+                            label: formatDateLabel(b.date)
+                        });
+                    }
+                });
+            }
+
+            // Sort options chronologically
+            options.sort((a, b) => a.value.localeCompare(b.value));
+
+            return options;
+        }
+
+        function setupDateSelectors() {
+            const dateOptions = generateWeeklyDateOptions();
+            const todayStr = getTodayString();
+            const tomorrowStr = getTomorrowString();
+            const teacherDateOptions = dateOptions.filter(opt => opt.value === todayStr || opt.value === tomorrowStr);
+
+            const viewSelect = document.getElementById('viewDateSelector');
+            const formSelect = document.getElementById('bookingDateSelect');
+            const schedSelect = document.getElementById('scheduleDateSelector');
+
+            [viewSelect, schedSelect].forEach(sel => {
+                if (!sel) return;
+                sel.innerHTML = '';
+                dateOptions.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.innerText = opt.label;
+                    sel.appendChild(el);
+                });
+                sel.value = currentSelectedDate;
+            });
+
+            if (formSelect) {
+                formSelect.innerHTML = '';
+                teacherDateOptions.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.innerText = opt.label;
+                    formSelect.appendChild(el);
+                });
+                if (currentSelectedDate === todayStr || currentSelectedDate === tomorrowStr) {
+                    formSelect.value = currentSelectedDate;
+                } else {
+                    formSelect.value = todayStr;
+                }
+            }
+
+            // Set default date input in admin advance booking to today
+            const adminDateInput = document.getElementById('adminAdvanceDate');
+            if (adminDateInput) adminDateInput.value = currentSelectedDate;
         }
 
         // Live clock updater
         function updateClock() {
-            const now = new Date();
             const clockText = document.getElementById('clockText');
             if (clockText) {
+                const now = new Date();
                 clockText.innerText = now.toLocaleTimeString('ms-MY', { hour12: false });
             }
         }
@@ -786,6 +927,7 @@
             renderAnnouncementDisplay();
 
             setupDateSelectors();
+            populateAdminAdvanceSlotDropdowns();
             updateClock();
             setInterval(updateClock, 1000);
 
@@ -794,19 +936,16 @@
         };
 
         function setupDateSelectors() {
+            const dateOptions = generateWeeklyDateOptions();
             const todayStr = getTodayString();
             const tomorrowStr = getTomorrowString();
-
-            const dateOptions = [
-                { value: todayStr, label: formatDateLabel(todayStr) },
-                { value: tomorrowStr, label: formatDateLabel(tomorrowStr) }
-            ];
+            const teacherDateOptions = dateOptions.filter(opt => opt.value === todayStr || opt.value === tomorrowStr);
 
             const viewSelect = document.getElementById('viewDateSelector');
             const formSelect = document.getElementById('bookingDateSelect');
             const schedSelect = document.getElementById('scheduleDateSelector');
 
-            [viewSelect, formSelect, schedSelect].forEach(sel => {
+            [viewSelect, schedSelect].forEach(sel => {
                 if (!sel) return;
                 sel.innerHTML = '';
                 dateOptions.forEach(opt => {
@@ -817,6 +956,100 @@
                 });
                 sel.value = currentSelectedDate;
             });
+
+            if (formSelect) {
+                formSelect.innerHTML = '';
+                teacherDateOptions.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.innerText = opt.label;
+                    formSelect.appendChild(el);
+                });
+                if (currentSelectedDate === todayStr || currentSelectedDate === tomorrowStr) {
+                    formSelect.value = currentSelectedDate;
+                } else {
+                    formSelect.value = todayStr;
+                }
+            }
+
+            // Set default date input in admin advance booking to today
+            const adminDateInput = document.getElementById('adminAdvanceDate');
+            if (adminDateInput) adminDateInput.value = currentSelectedDate;
+        }
+
+        function populateAdminAdvanceSlotDropdowns() {
+            const startSelect = document.getElementById('adminAdvanceStartSlot');
+            const endSelect = document.getElementById('adminAdvanceEndSlot');
+            if (!startSelect || !endSelect) return;
+
+            startSelect.innerHTML = '';
+            endSelect.innerHTML = '';
+
+            TIME_SLOTS.forEach(slot => {
+                const opt1 = document.createElement('option');
+                opt1.value = slot.id;
+                opt1.innerText = `${slot.label} (${slot.time.split(' - ')[0]})`;
+                startSelect.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = slot.id;
+                opt2.innerText = `${slot.label} (${slot.time.split(' - ')[1]})`;
+                endSelect.appendChild(opt2);
+            });
+
+            endSelect.value = TIME_SLOTS[TIME_SLOTS.length - 1].id;
+        }
+
+        function saveAdminAdvanceBooking() {
+            if (!isAdminUnlocked) {
+                showAlert('error', 'Sila sahkan akses admin terlebih dahulu.');
+                return;
+            }
+
+            const dateVal = document.getElementById('adminAdvanceDate').value;
+            const programName = document.getElementById('adminAdvanceProgramName').value.trim();
+            const officer = document.getElementById('adminAdvanceOfficer').value.trim();
+            const startSlot = parseInt(document.getElementById('adminAdvanceStartSlot').value);
+            const endSlot = parseInt(document.getElementById('adminAdvanceEndSlot').value);
+
+            if (!dateVal) {
+                showAlert('error', 'Sila pilih tarikh khas program.');
+                return;
+            }
+            if (!programName) {
+                showAlert('error', 'Sila masukkan nama program khas.');
+                return;
+            }
+            if (startSlot > endSlot) {
+                showAlert('error', 'Slot Mula tidak boleh melebihi Slot Akhir.');
+                return;
+            }
+
+            const bookingId = 'SSMP-ADV-' + Math.floor(100000 + Math.random() * 900000);
+
+            const newBooking = {
+                id: bookingId,
+                teacher: officer || 'Pentadbiran SSMP',
+                classLevel: 'PROGRAM KHAS',
+                className: 'SSMP',
+                date: dateVal,
+                startSlot: startSlot,
+                endSlot: endSlot,
+                purpose: `[ADVANCE PROGRAM] ${programName}`
+            };
+
+            bookings.push(newBooking);
+            saveBookings();
+
+            // Refresh date selectors so the new advance date is included in dropdowns
+            setupDateSelectors();
+            changeSelectedDate(dateVal);
+
+            document.getElementById('adminAdvanceProgramName').value = '';
+            document.getElementById('adminAdvanceOfficer').value = '';
+
+            showAlert('success', `Tempahan advance program khas berjaya dikunci pada tarikh ${formatDateLabel(dateVal)}!`);
+            sendSystemNotification('Tempahan Khas Advance Program', `Program '${programName}' telah dijadualkan pada ${formatDateLabel(dateVal)}.`);
         }
 
         function changeSelectedDate(newDate) {
@@ -830,8 +1063,17 @@
             const schedSelect = document.getElementById('scheduleDateSelector');
 
             if (viewSelect) viewSelect.value = newDate;
-            if (formSelect) formSelect.value = newDate;
             if (schedSelect) schedSelect.value = newDate;
+
+            const todayStr = getTodayString();
+            const tomorrowStr = getTomorrowString();
+            if (formSelect) {
+                if (newDate === todayStr || newDate === tomorrowStr) {
+                    formSelect.value = newDate;
+                } else {
+                    formSelect.value = todayStr;
+                }
+            }
 
             updateSlotInputsDisplay();
             refreshUIForSelectedDate();
@@ -1208,6 +1450,13 @@
 
         function handleFormSubmit(event) {
             event.preventDefault();
+
+            const todayStr = getTodayString();
+            const tomorrowStr = getTomorrowString();
+            if (currentSelectedDate !== todayStr && currentSelectedDate !== tomorrowStr) {
+                showAlert('error', 'Tempahan guru terhad untuk Hari Ini dan Esok sahaja. Sila pilih tarikh Hari Ini atau Esok.');
+                return;
+            }
 
             if (!selectedStartSlot) {
                 showAlert('error', 'Sila pilih sekurang-kurangnya satu slot masa pada grid.');
