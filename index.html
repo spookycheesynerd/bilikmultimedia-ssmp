@@ -26,10 +26,6 @@
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-8px) rotate(2deg); }
         }
-        @keyframes cartoonWiggle {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
         @keyframes popIn {
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -184,7 +180,7 @@
                             Bilik Multimedia SSMP
                         </h1>
                         <p class="text-xs text-teal-100 font-medium leading-relaxed bg-black/10 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
-                            Sistem Tempahan Rasmi (Pilih Slot Mula & Slot Akhir • Tempahan dibuat pada hari semasa sahaja).
+                            Sistem Tempahan Rasmi (Pilih Slot Mula & Slot Akhir • Tempahan Boleh Dibuat Untuk Hari Ini & Esok).
                         </p>
                     </div>
 
@@ -244,7 +240,7 @@
                     
                     <!-- Slot Grid Selector (Left 2 Columns) -->
                     <div class="lg:col-span-2 bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-100 gap-3">
                             <div>
                                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 font-outfit">
                                     <i data-lucide="clock" class="w-4 h-4 text-teal-600"></i>
@@ -254,7 +250,25 @@
                                     Klik slot pertama untuk <strong class="text-teal-700">Slot Mula</strong>, kemudian klik slot seterusnya untuk <strong class="text-teal-700">Slot Akhir</strong>.
                                 </p>
                             </div>
-                            <div class="flex items-center gap-3 text-xs font-bold text-slate-700">
+
+                            <!-- Date Switcher Selector -->
+                            <div class="bg-teal-50/80 border border-teal-200 p-1.5 rounded-xl flex items-center gap-1 self-stretch sm:self-auto shrink-0">
+                                <i data-lucide="calendar" class="w-4 h-4 text-teal-600 ml-1.5"></i>
+                                <select 
+                                    id="viewDateSelector" 
+                                    onchange="changeSelectedDate(this.value)"
+                                    class="bg-white text-xs font-extrabold text-teal-800 py-1 px-2.5 rounded-lg border border-teal-300 focus:outline-none cursor-pointer shadow-2xs"
+                                >
+                                    <!-- Populated dynamically via JS -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs font-bold text-slate-700 pt-1">
+                            <span class="text-teal-700 font-black text-xs flex items-center gap-1">
+                                📅 Paparan Tarikh: <span id="currentViewingDateBadge" class="bg-teal-100 text-teal-900 px-2 py-0.5 rounded-md border border-teal-300 font-mono">--</span>
+                            </span>
+                            <div class="flex items-center gap-3">
                                 <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-slate-100 border border-slate-300 rounded-xs inline-block"></span> Kosong</span>
                                 <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-teal-600 rounded-xs inline-block"></span> Dipilih</span>
                                 <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-rose-600 rounded-xs inline-block"></span> Ditempah</span>
@@ -333,14 +347,16 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Tarikh (Hari Ini):</label>
-                                    <input 
-                                        type="date" 
-                                        id="bookingDate" 
-                                        disabled
-                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-100 text-slate-500 cursor-not-allowed"
-                                    />
-                                    <span class="text-[11px] text-teal-600 font-bold mt-1 block">📌 Tempahan dibuat pada hari semasa sahaja.</span>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Tarikh Tempahan:</label>
+                                    <select 
+                                        id="bookingDateSelect"
+                                        required
+                                        onchange="changeSelectedDate(this.value)"
+                                        class="w-full p-2.5 border border-teal-300 rounded-xl text-xs font-black bg-teal-50 text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                                    >
+                                        <!-- Dynamic Date Options -->
+                                    </select>
+                                    <span class="text-[11px] text-teal-700 font-bold mt-1 block">📌 Boleh tempah untuk Hari Ini & Esok (1 hari lebih awal).</span>
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-2">
@@ -406,7 +422,10 @@
                 <!-- Reservations List -->
                 <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
                     <div class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100 flex items-center justify-between font-outfit">
-                        <span>Senarai Tempahan (Hari Semasa):</span>
+                        <span class="flex items-center gap-2">
+                            <span>Senarai Tempahan:</span>
+                            <span id="reservationListDateTag" class="text-xs bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-lg border border-teal-300 font-extrabold">--</span>
+                        </span>
                         <span id="badgeCount" class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full font-bold">
                             0 Rekod Aktif
                         </span>
@@ -421,7 +440,7 @@
             <!-- Tab Content Jadual -->
             <div id="tab-content-jadual" class="hidden space-y-6">
                 <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-100 gap-3">
                         <div>
                             <h2 class="text-base font-bold text-slate-800 font-outfit flex items-center gap-2">
                                 <i data-lucide="calendar" class="w-5 h-5 text-teal-600"></i>
@@ -429,7 +448,14 @@
                             </h2>
                             <p class="text-xs text-slate-500 font-medium mt-0.5">Senarai rasmi 15 slot masa operasi harian untuk latihan dan analisis atlet sekolah.</p>
                         </div>
-                        <div id="scheduleTodayDate" class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-xl"></div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-500">Pilih Tarikh:</span>
+                            <select 
+                                id="scheduleDateSelector" 
+                                onchange="changeSelectedDate(this.value)" 
+                                class="text-xs font-bold text-teal-800 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-xl focus:outline-none cursor-pointer"
+                            ></select>
+                        </div>
                     </div>
 
                     <div id="fullScheduleTable" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
@@ -443,23 +469,23 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
                         <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Kapasiti Slot</div>
-                        <div class="text-3xl font-black text-slate-800 font-outfit mt-1">15 Slot</div>
+                        <div class="text-3xl font-black text-slate-800 font-outfit mt-1">15 Slot / Hari</div>
                         <div class="text-xs text-teal-600 font-bold mt-2">7:30 AM - 3:00 PM</div>
                     </div>
                     <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tempahan Hari Ini</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tempahan Tarikh Dipilih</div>
                         <div id="statActiveCount" class="text-3xl font-black text-teal-600 font-outfit mt-1">0</div>
                         <div class="text-xs text-slate-500 font-medium mt-2">Status Semasa Aktif</div>
                     </div>
                     <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kadar Penggunaan</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kadar Penggunaan Tarikh</div>
                         <div id="statUsageRate" class="text-3xl font-black text-emerald-600 font-outfit mt-1">0%</div>
                         <div class="text-xs text-slate-500 font-medium mt-2">Daripada Jumlah Slot Harian</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Content Tetapan -->
+            <!-- Tab Content Tetapan (Admin Preserved) -->
             <div id="tab-content-tetapan" class="hidden space-y-6">
                 <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -499,17 +525,38 @@
                         </div>
                     </div>
 
-                    <!-- Modul 2: Lihat & Batal Slot Tempahan -->
+                    <!-- Modul 2: Tetapan Emel Notifikasi -->
+                    <div class="bg-teal-50/60 border border-teal-200 p-5 rounded-2xl space-y-3">
+                        <h3 class="text-xs font-black text-teal-900 uppercase tracking-wide flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-teal-700"></i>
+                            <span>Tetapan Sistem & Notifikasi Emel</span>
+                        </h3>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Emel Penerima Notifikasi Automatik:</label>
+                            <input 
+                                type="email" 
+                                id="adminEmailInput" 
+                                placeholder="g-66154373@moe-dl.edu.my" 
+                                value="g-66154373@moe-dl.edu.my"
+                                class="w-full p-2.5 border border-teal-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                            />
+                        </div>
+                        <button onclick="saveAdminEmailSetting()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-xl text-xs cursor-pointer transition shadow-xs flex items-center gap-1.5">
+                            <i data-lucide="save" class="w-4 h-4"></i> Simpan Tetapan Emel
+                        </button>
+                    </div>
+
+                    <!-- Modul 3: Lihat & Batal Slot Tempahan -->
                     <div class="space-y-3 pt-2">
                         <div class="flex items-center justify-between">
                             <h3 class="text-xs font-black text-slate-800 uppercase tracking-wide flex items-center gap-2">
                                 <i data-lucide="list-checks" class="w-4 h-4 text-teal-600"></i>
-                                <span>Pengurusan & Pembatalan Slot Tempahan Hari Ini</span>
+                                <span>Pengurusan & Pembatalan Keseluruhan Tempahan (Semua Tarikh)</span>
                             </h3>
                             <span id="adminSlotCountBadge" class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-0.5 rounded-full font-bold">0 Slot</span>
                         </div>
 
-                        <div id="adminBookingsTable" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-white">
+                        <div id="adminBookingsTable" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-white max-h-96 overflow-y-auto">
                             <!-- Populated by JS -->
                         </div>
                     </div>
@@ -555,7 +602,7 @@
                 </div>
                 <div class="flex justify-between py-1 border-b border-slate-100">
                     <span class="text-slate-400 font-medium">Tarikh Tempahan:</span>
-                    <span id="receiptDate" class="font-bold text-slate-800 text-right"></span>
+                    <span id="receiptDate" class="font-bold text-teal-800 font-mono text-right"></span>
                 </div>
                 <div class="flex justify-between py-1 border-b border-slate-100">
                     <span class="text-slate-400 font-medium">Masa & Slot:</span>
@@ -639,10 +686,51 @@
         // Master state for active bookings
         let bookings = [];
 
+        // Active Date Selection State
+        let currentSelectedDate = "";
+
         // Admin authentication state
         let isAdminUnlocked = false;
-
         let pushNotificationsEnabled = false;
+
+        let selectedStartSlot = null;
+        let selectedEndSlot = null;
+        let currentAnnouncement = localStorage.getItem('ssmp_announcement') || "";
+        let adminEmailRecipient = localStorage.getItem('ssmp_admin_email') || "g-66154373@moe-dl.edu.my";
+
+        // Helper to get local YYYY-MM-DD date string for today
+        function getTodayString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Helper to get local YYYY-MM-DD date string for tomorrow
+        function getTomorrowString() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const year = tomorrow.getFullYear();
+            const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const day = String(tomorrow.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function formatDateLabel(dateStr) {
+            const todayStr = getTodayString();
+            const tomorrowStr = getTomorrowString();
+            
+            const parts = dateStr.split('-');
+            const formatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
+
+            if (dateStr === todayStr) {
+                return `Hari Ini (${formatted})`;
+            } else if (dateStr === tomorrowStr) {
+                return `Esok (${formatted})`;
+            }
+            return formatted;
+        }
 
         // Live clock updater
         function updateClock() {
@@ -680,68 +768,11 @@
             }, 4000);
         }
 
-        // Full schedule table renderer for Tab Jadual
-        function renderFullScheduleTable() {
-            const container = document.getElementById('fullScheduleTable');
-            if (!container) return;
-
-            const todayBookings = getTodayBookings();
-            container.innerHTML = '';
-
-            TIME_SLOTS.forEach(slot => {
-                const booking = todayBookings.find(b => slot.id >= b.startSlot && slot.id <= b.endSlot);
-                const row = document.createElement('div');
-                row.className = `p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 ${booking ? 'bg-rose-50/60' : 'bg-white hover:bg-slate-50'}`;
-
-                row.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg ${booking ? 'bg-rose-100 text-rose-700' : 'bg-teal-100 text-teal-700'} flex items-center justify-center font-bold text-xs shrink-0 font-outfit">
-                            ${slot.id}
-                        </span>
-                        <div>
-                            <div class="text-xs sm:text-sm font-black text-slate-800 font-outfit">${slot.label}: ${slot.time}</div>
-                            <div class="text-[11px] font-semibold ${booking ? 'text-rose-600' : 'text-emerald-600'}">
-                                ${booking ? `Ditempah oleh ${booking.teacher} (${booking.classLevel} ${booking.className})` : 'Tersedia untuk tempahan'}
-                            </div>
-                        </div>
-                    </div>
-                    ${!booking ? `
-                        <button onclick="quickSelectSlot(${slot.id})" class="text-xs font-bold text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer self-end sm:self-auto">
-                            Pilih Slot Ini
-                        </button>
-                    ` : `
-                        <span class="text-[11px] font-bold text-rose-600 bg-rose-100 px-2.5 py-1 rounded-lg border border-rose-200">
-                            Tidak Tersedia
-                        </span>
-                    `}
-                `;
-
-                container.appendChild(row);
-            });
-
-            safeCreateIcons();
-        }
-
         // Safe wrapper for Lucide icon initialization
         function safeCreateIcons() {
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
                 lucide.createIcons();
             }
-        }
-
-        // Selection state for grid
-        let selectedStartSlot = null;
-        let selectedEndSlot = null;
-        let activeMailtoUrl = "";
-        let currentAnnouncement = localStorage.getItem('ssmp_announcement') || "";
-
-        // Helper to get local YYYY-MM-DD date string
-        function getTodayString() {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
         }
 
         // Load persisted bookings from localStorage
@@ -769,28 +800,80 @@
             safeCreateIcons();
             loadBookings();
             
+            currentSelectedDate = getTodayString();
+
             const announceInput = document.getElementById('adminAnnouncementInput');
             if (announceInput) announceInput.value = currentAnnouncement;
             renderAnnouncementDisplay();
 
-            const todayStr = getTodayString();
-            document.getElementById('bookingDate').value = todayStr;
-            
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = new Date().toLocaleDateString('ms-MY', dateOptions);
-            const schedDateEl = document.getElementById('scheduleTodayDate');
-            if (schedDateEl) schedDateEl.innerText = formattedDate;
+            const emailInput = document.getElementById('adminEmailInput');
+            if (emailInput) emailInput.value = adminEmailRecipient;
 
+            setupDateSelectors();
             updateClock();
             setInterval(updateClock, 1000);
 
             checkNotificationPermissionStatus();
+            refreshUIForSelectedDate();
+        };
+
+        function setupDateSelectors() {
+            const todayStr = getTodayString();
+            const tomorrowStr = getTomorrowString();
+
+            const dateOptions = [
+                { value: todayStr, label: formatDateLabel(todayStr) },
+                { value: tomorrowStr, label: formatDateLabel(tomorrowStr) }
+            ];
+
+            const viewSelect = document.getElementById('viewDateSelector');
+            const formSelect = document.getElementById('bookingDateSelect');
+            const schedSelect = document.getElementById('scheduleDateSelector');
+
+            [viewSelect, formSelect, schedSelect].forEach(sel => {
+                if (!sel) return;
+                sel.innerHTML = '';
+                dateOptions.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.innerText = opt.label;
+                    sel.appendChild(el);
+                });
+                sel.value = currentSelectedDate;
+            });
+        }
+
+        function changeSelectedDate(newDate) {
+            currentSelectedDate = newDate;
+            selectedStartSlot = null;
+            selectedEndSlot = null;
+
+            // Sync all date dropdowns
+            const viewSelect = document.getElementById('viewDateSelector');
+            const formSelect = document.getElementById('bookingDateSelect');
+            const schedSelect = document.getElementById('scheduleDateSelector');
+
+            if (viewSelect) viewSelect.value = newDate;
+            if (formSelect) formSelect.value = newDate;
+            if (schedSelect) schedSelect.value = newDate;
+
+            updateSlotInputsDisplay();
+            refreshUIForSelectedDate();
+        }
+
+        function refreshUIForSelectedDate() {
+            const dateBadge = document.getElementById('currentViewingDateBadge');
+            const tagDate = document.getElementById('reservationListDateTag');
+
+            if (dateBadge) dateBadge.innerText = formatDateLabel(currentSelectedDate);
+            if (tagDate) tagDate.innerText = formatDateLabel(currentSelectedDate);
+
             renderSlotGrid();
             renderReservationsList();
             renderFullScheduleTable();
             renderAdminBookingsTable();
             updateStatistics();
-        };
+        }
 
         function checkNotificationPermissionStatus() {
             if ("Notification" in window && Notification.permission === "granted") {
@@ -874,14 +957,20 @@
             safeCreateIcons();
         }
 
+        // Get bookings for the currently selected date
+        function getSelectedDateBookings() {
+            return bookings.filter(b => b.date === currentSelectedDate);
+        }
+
         function renderSlotGrid() {
             const grid = document.getElementById('slotsGrid');
+            if (!grid) return;
             grid.innerHTML = '';
 
-            const todayBookings = getTodayBookings();
+            const activeBookings = getSelectedDateBookings();
 
             TIME_SLOTS.forEach(slot => {
-                const isBooked = todayBookings.some(b => slot.id >= b.startSlot && slot.id <= b.endSlot);
+                const isBooked = activeBookings.some(b => slot.id >= b.startSlot && slot.id <= b.endSlot);
 
                 let isSelected = false;
                 if (selectedStartSlot !== null && selectedEndSlot !== null) {
@@ -929,6 +1018,8 @@
             const startInput = document.getElementById('displayStartSlot');
             const endInput = document.getElementById('displayEndSlot');
 
+            if (!startInput || !endInput) return;
+
             if (selectedStartSlot) {
                 const sObj = TIME_SLOTS.find(s => s.id === selectedStartSlot);
                 startInput.value = `${sObj.label} (${sObj.time.split(' - ')[0]})`;
@@ -955,42 +1046,36 @@
         function renderReservationsList(filterQuery = '') {
             const container = document.getElementById('reservationsList');
             const badgeCount = document.getElementById('badgeCount');
-            let todayBookings = getTodayBookings();
+            if (!container || !badgeCount) return;
+
+            let activeBookings = getSelectedDateBookings();
 
             if (filterQuery) {
-                todayBookings = todayBookings.filter(b => 
+                activeBookings = activeBookings.filter(b => 
                     b.teacher.toLowerCase().includes(filterQuery) ||
                     b.purpose.toLowerCase().includes(filterQuery) ||
                     b.className.toLowerCase().includes(filterQuery)
                 );
             }
 
-            badgeCount.innerText = `${todayBookings.length} Rekod Aktif`;
+            badgeCount.innerText = `${activeBookings.length} Rekod Aktif`;
             container.innerHTML = '';
 
-            if (todayBookings.length === 0) {
+            if (activeBookings.length === 0) {
                 container.innerHTML = `
                     <div class="col-span-full py-8 text-center bg-teal-50/50 rounded-2xl border-2 border-dashed border-teal-200 p-6">
-                        <!-- Cartoon Mascot Sleepy Graphic -->
-                        <div class="w-20 h-20 mx-auto mb-3 opacity-90 cartoon-mascot">
-                            <svg viewBox="0 0 200 200" class="w-full h-full filter drop-shadow-sm">
-                                <circle cx="100" cy="100" r="70" fill="#fef08a" stroke="#ca8a04" stroke-width="6"/>
-                                <circle cx="70" cy="85" r="8" fill="#854d0e"/>
-                                <circle cx="130" cy="85" r="8" fill="#854d0e"/>
-                                <path d="M80 120 Q100 140 120 120" fill="none" stroke="#854d0e" stroke-width="6" stroke-linecap="round"/>
-                                <text x="145" y="60" font-size="32" font-weight="bold" fill="#0d9488">Z</text>
-                                <text x="165" y="40" font-size="24" font-weight="bold" fill="#14b8a6">z</text>
-                            </svg>
+                        <div class="w-16 h-16 mx-auto mb-3 text-teal-400 flex items-center justify-center">
+                            <i data-lucide="calendar-x2" class="w-12 h-12"></i>
                         </div>
-                        <h4 class="text-xs font-black text-teal-900 uppercase tracking-wide">Belum Ada Tempahan Hari Ini 🎬</h4>
-                        <p class="text-[11px] font-semibold text-teal-600/80 mt-1">Bilik Multimedia masih kosong! Pilih slot pada grid di atas untuk buat tempahan pertama.</p>
+                        <h4 class="text-xs font-black text-teal-900 uppercase tracking-wide">Tiada Tempahan Untuk ${formatDateLabel(currentSelectedDate)} 🎬</h4>
+                        <p class="text-[11px] font-semibold text-teal-600/80 mt-1">Bilik Multimedia masih kosong! Pilih slot pada grid di atas untuk buat tempahan.</p>
                     </div>
                 `;
                 safeCreateIcons();
                 return;
             }
 
-            todayBookings.forEach(booking => {
+            activeBookings.forEach(booking => {
                 const startObj = TIME_SLOTS.find(s => s.id === booking.startSlot);
                 const endObj = TIME_SLOTS.find(s => s.id === booking.endSlot);
 
@@ -1037,42 +1122,6 @@
             safeCreateIcons();
         }
 
-        const MASCOT_QUOTES = [
-            "Roar! Sedia untuk tayangan & analisis sukan hari ini? 🐯✨",
-            "Sila pilih slot pertama dan slot akhir pada grid slot masa! 🕒",
-            "Jangan lupa isi nama guru dan kelas dengan lengkap ya! 📝",
-            "Bilik Multimedia SSMP dilengkapi peralatan audiovisual terkini! 🍿🎬",
-            "Gunakan Token Digital untuk pengesahan penggunaan bilik! 🎟️"
-        ];
-
-        function triggerMascotRoar() {
-            const speechEl = document.getElementById('mascotSpeech');
-            const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
-            if (speechEl) {
-                speechEl.innerText = randomQuote;
-            }
-        }
-
-        function toggleMascotWidget() {
-            const widget = document.getElementById('mascotBubbleWidget');
-            const textEl = document.getElementById('mascotWidgetText');
-            if (!widget) return;
-
-            if (widget.classList.contains('hidden')) {
-                const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
-                if (textEl) textEl.innerText = randomQuote;
-                widget.classList.remove('hidden');
-            } else {
-                widget.classList.add('hidden');
-            }
-        }
-
-        // Get bookings for the current day
-        function getTodayBookings() {
-            const todayStr = getTodayString();
-            return bookings.filter(b => b.date === todayStr);
-        }
-
         // Slot selection handler on the grid
         function handleSlotClick(slotId, isBooked) {
             if (isBooked) {
@@ -1088,10 +1137,10 @@
                     selectedStartSlot = slotId;
                     selectedEndSlot = null;
                 } else {
-                    const todayBookings = getTodayBookings();
+                    const activeBookings = getSelectedDateBookings();
                     let hasOverlap = false;
                     for (let i = selectedStartSlot; i <= slotId; i++) {
-                        if (todayBookings.some(b => i >= b.startSlot && i <= b.endSlot)) {
+                        if (activeBookings.some(b => i >= b.startSlot && i <= b.endSlot)) {
                             hasOverlap = true;
                             break;
                         }
@@ -1110,13 +1159,52 @@
             updateSlotInputsDisplay();
         }
 
-        // Quick select slot from full schedule table
+        function renderFullScheduleTable() {
+            const container = document.getElementById('fullScheduleTable');
+            if (!container) return;
+
+            const activeBookings = getSelectedDateBookings();
+            container.innerHTML = '';
+
+            TIME_SLOTS.forEach(slot => {
+                const booking = activeBookings.find(b => slot.id >= b.startSlot && slot.id <= b.endSlot);
+                const row = document.createElement('div');
+                row.className = `p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 ${booking ? 'bg-rose-50/60' : 'bg-white hover:bg-slate-50'}`;
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg ${booking ? 'bg-rose-100 text-rose-700' : 'bg-teal-100 text-teal-700'} flex items-center justify-center font-bold text-xs shrink-0 font-outfit">
+                            ${slot.id}
+                        </span>
+                        <div>
+                            <div class="text-xs sm:text-sm font-black text-slate-800 font-outfit">${slot.label}: ${slot.time}</div>
+                            <div class="text-[11px] font-semibold ${booking ? 'text-rose-600' : 'text-emerald-600'}">
+                                ${booking ? `Ditempah oleh ${booking.teacher} (${booking.classLevel} ${booking.className})` : 'Tersedia untuk tempahan'}
+                            </div>
+                        </div>
+                    </div>
+                    ${!booking ? `
+                        <button onclick="quickSelectSlot(${slot.id})" class="text-xs font-bold text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer self-end sm:self-auto">
+                            Pilih Slot Ini
+                        </button>
+                    ` : `
+                        <span class="text-[11px] font-bold text-rose-600 bg-rose-100 px-2.5 py-1 rounded-lg border border-rose-200">
+                            Tidak Tersedia
+                        </span>
+                    `}
+                `;
+
+                container.appendChild(row);
+            });
+
+            safeCreateIcons();
+        }
+
         function quickSelectSlot(slotId) {
             switchTab('utama');
             handleSlotClick(slotId, false);
         }
 
-        // Toggle custom class name input
         function handleClassNameChange(value) {
             const customInput = document.getElementById('className');
             if (value === 'Lain-lain') {
@@ -1129,7 +1217,6 @@
             }
         }
 
-        // Toggle custom purpose input
         function handlePurposeChange(value) {
             const customInput = document.getElementById('bookingPurpose');
             if (value === 'Lain-lain') {
@@ -1142,7 +1229,6 @@
             }
         }
 
-        // Submit new booking form
         function handleFormSubmit(event) {
             event.preventDefault();
 
@@ -1162,7 +1248,6 @@
             const customPurpose = document.getElementById('bookingPurpose').value.trim();
             const purpose = purposeSelect === 'Lain-lain' ? customPurpose : purposeSelect;
 
-            const todayStr = getTodayString();
             const bookingId = 'SSMP-' + Math.floor(100000 + Math.random() * 900000);
 
             const newBooking = {
@@ -1170,7 +1255,7 @@
                 teacher: teacherName,
                 classLevel: classLevel,
                 className: className,
-                date: todayStr,
+                date: currentSelectedDate,
                 startSlot: selectedStartSlot,
                 endSlot: endSlot,
                 purpose: purpose
@@ -1179,73 +1264,64 @@
             bookings.push(newBooking);
             saveBookings();
 
-            // Reset slot selections
             selectedStartSlot = null;
             selectedEndSlot = null;
 
-            // Reset form controls
             document.getElementById('bookingForm').reset();
             document.getElementById('className').classList.add('hidden');
             document.getElementById('bookingPurpose').classList.add('hidden');
+            document.getElementById('bookingDateSelect').value = currentSelectedDate;
 
-            renderSlotGrid();
-            updateSlotInputsDisplay();
-            renderReservationsList();
-            renderFullScheduleTable();
-            updateStatistics();
+            refreshUIForSelectedDate();
 
-            showAlert('success', `Tempahan berjaya disimpan! Token Digital: ${bookingId}`);
+            showAlert('success', `Tempahan berjaya disimpan bagi ${formatDateLabel(currentSelectedDate)}! Token Digital: ${bookingId}`);
 
-            // Trigger push notification
-            sendSystemNotification('Tempahan Baharu Bilik Multimedia', `${teacherName} telah menempah Slot ${newBooking.startSlot}-${newBooking.endSlot} untuk ${classLevel} ${className}.`);
+            sendSystemNotification('Tempahan Baharu Bilik Multimedia', `${teacherName} telah menempah Slot ${newBooking.startSlot}-${newBooking.endSlot} untuk ${classLevel} ${className} (${formatDateLabel(currentSelectedDate)}).`);
 
-            // Automatically open Digital Token modal
             openReceiptModal(bookingId);
         }
 
-        // Delete an existing booking
         function deleteBooking(bookingId) {
             bookings = bookings.filter(b => b.id !== bookingId);
             saveBookings();
-            renderSlotGrid();
-            updateSlotInputsDisplay();
-            renderReservationsList();
-            renderFullScheduleTable();
-            renderAdminBookingsTable();
-            updateStatistics();
+            refreshUIForSelectedDate();
             showAlert('info', 'Rekod tempahan telah dipadamkan.');
         }
 
-        // Render table of bookings inside Admin Tetapan panel
+        // Render table of bookings inside Admin Tetapan panel (All Dates Preserved)
         function renderAdminBookingsTable() {
             const container = document.getElementById('adminBookingsTable');
             const badge = document.getElementById('adminSlotCountBadge');
             if (!container) return;
 
-            const todayBookings = getTodayBookings();
-            if (badge) badge.innerText = `${todayBookings.length} Slot Ditempah`;
+            if (badge) badge.innerText = `${bookings.length} Rekod Tempahan`;
 
-            if (todayBookings.length === 0) {
+            if (bookings.length === 0) {
                 container.innerHTML = `
                     <div class="p-6 text-center text-slate-400 text-xs font-bold">
-                        Tiada slot tempahan aktif untuk hari ini.
+                        Tiada sebarang rekod tempahan aktif dalam sistem.
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = '';
-            todayBookings.forEach(booking => {
+            
+            // Sort bookings by date descending
+            const sorted = [...bookings].sort((a, b) => b.date.localeCompare(a.date));
+
+            sorted.forEach(booking => {
                 const startObj = TIME_SLOTS.find(s => s.id === booking.startSlot);
                 const endObj = TIME_SLOTS.find(s => s.id === booking.endSlot);
 
                 const row = document.createElement('div');
-                row.className = "p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50 transition";
+                row.className = "p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50 transition border-b border-slate-100";
 
                 row.innerHTML = `
                     <div>
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <span class="font-mono text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">${booking.id}</span>
+                            <span class="text-xs font-extrabold text-teal-900 bg-teal-100 px-2 py-0.5 rounded border border-teal-300">${formatDateLabel(booking.date)}</span>
                             <span class="text-xs font-bold text-slate-800">${booking.teacher}</span>
                             <span class="text-xs font-semibold text-slate-500">(${booking.classLevel} ${booking.className})</span>
                         </div>
@@ -1256,7 +1332,7 @@
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <button onclick="openReceiptModal('${booking.id}')" class="text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer">
-                            Lihat Token
+                            Token
                         </button>
                         <button onclick="deleteBooking('${booking.id}')" class="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1">
                             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Batal Slot
@@ -1270,7 +1346,6 @@
             safeCreateIcons();
         }
 
-        // Announcement Functions
         function saveAdminAnnouncement() {
             const input = document.getElementById('adminAnnouncementInput');
             if (!input) return;
@@ -1294,6 +1369,19 @@
             showAlert('info', 'Pengumuman pentadbir telah dipadamkan.');
         }
 
+        function saveAdminEmailSetting() {
+            const input = document.getElementById('adminEmailInput');
+            if (!input) return;
+            const email = input.value.trim();
+            if (!email) {
+                showAlert('error', 'Sila masukkan alamat emel yang sah.');
+                return;
+            }
+            adminEmailRecipient = email;
+            localStorage.setItem('ssmp_admin_email', adminEmailRecipient);
+            showAlert('success', `Alamat emel pentadbir berjaya disimpan: ${adminEmailRecipient}`);
+        }
+
         function renderAnnouncementDisplay() {
             const banner = document.getElementById('announcementBanner');
             const display = document.getElementById('announcementTextDisplay');
@@ -1312,7 +1400,6 @@
             if (banner) banner.classList.add('hidden');
         }
 
-        // Admin Auth Modal handlers
         function promptAdminPassword() {
             document.getElementById('adminAuthModal').classList.remove('hidden');
             document.getElementById('adminPasswordInput').value = '';
@@ -1323,7 +1410,6 @@
             document.getElementById('adminAuthModal').classList.add('hidden');
         }
 
-        // Digital Token Modal Handlers
         function openReceiptModal(bookingId) {
             const booking = bookings.find(b => b.id === bookingId);
             if (!booking) {
@@ -1344,7 +1430,7 @@
             if (receiptTokenId) receiptTokenId.innerText = booking.id;
             if (receiptTeacher) receiptTeacher.innerText = booking.teacher;
             if (receiptClass) receiptClass.innerText = `${booking.classLevel} ${booking.className}`;
-            if (receiptDate) receiptDate.innerText = booking.date;
+            if (receiptDate) receiptDate.innerText = formatDateLabel(booking.date);
             if (receiptSlot) {
                 const startTime = startObj ? startObj.time.split(' - ')[0] : '';
                 const endTime = endObj ? endObj.time.split(' - ')[1] : '';
@@ -1385,7 +1471,6 @@
             showAlert('info', 'Sesi Tetapan Admin telah dikunci.');
         }
 
-        // Trigger browser system notification
         function sendSystemNotification(title, body) {
             if (pushNotificationsEnabled && "Notification" in window && Notification.permission === "granted") {
                 new Notification(title, {
@@ -1395,13 +1480,12 @@
             }
         }
 
-        // Update statistics overview
         function updateStatistics() {
-            const todayBookings = getTodayBookings();
+            const activeBookings = getSelectedDateBookings();
             
             let bookedSlotCount = 0;
             TIME_SLOTS.forEach(slot => {
-                if (todayBookings.some(b => slot.id >= b.startSlot && slot.id <= b.endSlot)) {
+                if (activeBookings.some(b => slot.id >= b.startSlot && slot.id <= b.endSlot)) {
                     bookedSlotCount++;
                 }
             });
@@ -1415,13 +1499,12 @@
             const statActiveEl = document.getElementById('statActiveCount');
             const statUsageEl = document.getElementById('statUsageRate');
 
-            if (activeCountEl) activeCountEl.innerText = todayBookings.length;
+            if (activeCountEl) activeCountEl.innerText = activeBookings.length;
             if (freeSlotsEl) freeSlotsEl.innerText = freeSlots;
-            if (statActiveEl) statActiveEl.innerText = todayBookings.length;
+            if (statActiveEl) statActiveEl.innerText = activeBookings.length;
             if (statUsageEl) statUsageEl.innerText = `${usagePercent}%`;
         }
 
-        // Realtime search handler
         function handleSearch(query) {
             const q = query.toLowerCase().trim();
             renderReservationsList(q);
