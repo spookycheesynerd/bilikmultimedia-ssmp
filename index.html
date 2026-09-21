@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilik Multimedia SSMP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Krub:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        @keyframes floatPolkaDots {
+            0% {
+                background-position: 0 0, 15px 15px;
+            }
+            100% {
+                background-position: 60px 60px, 75px 75px;
+            }
+        }
+        @keyframes cartoonBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+        @keyframes cartoonWiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4fbf7;
+            background-image: radial-gradient(#0d9488 0.85px, transparent 0.85px), radial-gradient(#0d9488 0.85px, #f4fbf7 0.85px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            animation: floatPolkaDots 25s linear infinite;
+        }
+        .cartoon-badge {
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cartoon-badge:hover {
+            transform: translateY(-3px) scale(1.05) rotate(2deg);
+            box-shadow: 5px 5px 0px rgba(13, 148, 136, 0.35);
+        }
+        .cartoon-mascot {
+            animation: cartoonBounce 3.5s ease-in-out infinite;
+        }
+        .font-outfit, .font-arvo, .font-heading {
+            font-family: 'Krub', sans-serif;
+            letter-spacing: -0.01em;
+        }
+        .font-jakarta {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #receiptModal, #receiptModal * {
+                visibility: visible;
+            }
+            #receiptModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 20px;
+                background: white !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex antialiased selection:bg-teal-500 selection:text-white min-h-screen">
+
+    <!-- Left Navigation Bar -->
+    <aside class="bg-white/90 backdrop-blur-md border-r border-slate-200 flex flex-col justify-between transition-all duration-300 z-30 w-16 md:w-20 shrink-0 shadow-xs">
+        <div class="flex flex-col items-center py-6 space-y-6">
+            <div class="w-10 h-10 md:w-12 md:h-12 bg-teal-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-teal-500/30">
+                <i data-lucide="monitor-play" class="w-5 h-5 md:w-6 md:h-6"></i>
+            </div>
+
+            <nav class="flex flex-col space-y-3 w-full px-2 md:px-3">
+                <button onclick="switchTab('utama')" id="nav-utama" class="w-10 h-10 md:w-full md:h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center transition cursor-pointer shadow-xs font-bold" title="Utama (Dashboard)">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                </button>
+                <button onclick="switchTab('jadual')" id="nav-jadual" class="w-10 h-10 md:w-full md:h-12 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition cursor-pointer" title="Jadual Slot">
+                    <i data-lucide="calendar" class="w-5 h-5"></i>
+                </button>
+                <button onclick="switchTab('statistik')" id="nav-statistik" class="w-10 h-10 md:w-full md:h-12 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition cursor-pointer" title="Statistik Penggunaan">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                </button>
+                <button onclick="switchTab('tetapan')" id="nav-tetapan" class="w-10 h-10 md:w-full md:h-12 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition cursor-pointer relative" title="Tetapan Sistem (Khusus Admin)">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <i data-lucide="lock" class="w-3 h-3 text-teal-600 absolute bottom-1 right-1"></i>
+                </button>
+            </nav>
+        </div>
+
+        <div class="p-3 flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-teal-700 font-bold text-xs shadow-xs">
+                <span>SSMP</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        
+        <!-- Header Bar -->
+        <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 h-16 px-6 flex items-center justify-between sticky top-0 z-20 shadow-xs">
+            <div class="flex items-center gap-4 flex-1 max-w-md">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 transform -translate-y-1/2"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        oninput="handleSearch(this.value)"
+                        placeholder="Cari guru, slot, atau aktiviti..." 
+                        class="w-full pl-10 pr-4 py-2 bg-slate-100 border border-transparent rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:bg-white focus:border-teal-500 transition"
+                    />
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div id="liveClock" class="text-xs font-mono font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 hidden sm:flex items-center gap-1.5">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-teal-600"></i>
+                    <span id="clockText">00:00:00</span>
+                </div>
+                <button id="notifyBtn" onclick="togglePushNotifications()" class="text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-slate-100 text-slate-700 border-slate-200 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-300 cursor-pointer" title="Aktifkan Notifikasi Skrin Automatik">
+                    <i data-lucide="bell-ring" class="w-3.5 h-3.5 text-teal-600"></i>
+                    <span id="notifyBtnText">Aktifkan Notifikasi</span>
+                </button>
+                <button onclick="showAlert('info', '🔔 Tiada notifikasi baharu buat masa ini.')" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition relative cursor-pointer">
+                    <i data-lucide="bell" class="w-4 h-4"></i>
+                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-teal-500 rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="p-4 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
+            
+            <!-- Alert Notification Banner -->
+            <div id="alertBox" class="hidden p-4 rounded-xl text-xs font-bold shadow-sm flex items-center gap-2.5 animate-fadeIn"></div>
+
+            <!-- Dynamic Admin Announcement Banner -->
+            <div id="announcementBanner" class="hidden p-4 rounded-2xl bg-amber-500 text-amber-950 font-bold text-xs shadow-md border-2 border-amber-300 animate-fadeIn flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="bg-amber-950 text-amber-300 p-2 rounded-xl shrink-0 text-sm">📢</span>
+                    <div>
+                        <span class="text-[10px] uppercase font-black tracking-wider text-amber-900 block">Pengumuman Pentadbir</span>
+                        <span id="announcementTextDisplay" class="text-xs font-bold">--</span>
+                    </div>
+                </div>
+                <button onclick="dismissAnnouncement()" class="text-amber-900 hover:text-amber-950 font-black p-1 text-sm cursor-pointer">✕</button>
+            </div>
+
+            <div id="tab-content-utama" class="space-y-6">
+                <!-- Hero Banner with Athletic Emerald & Teal Theme -->
+                <div class="bg-gradient-to-r from-teal-700 via-emerald-600 to-cyan-700 rounded-3xl p-6 md:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden border-4 border-teal-300/40">
+
+                    <!-- Banner Main Header & Info -->
+                    <div class="space-y-3 z-10">
+                        <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+                            Bilik Multimedia SSMP
+                        </h1>
+                        <p class="text-xs text-teal-100 font-medium leading-relaxed bg-black/10 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
+                            Sistem Tempahan Rasmi (Pilih Slot Mula & Slot Akhir • Tempahan dibuat pada hari semasa sahaja).
+                        </p>
+                    </div>
+
+                    <!-- Cartoon Mascot Graphic -->
+                    <div class="mt-6 md:mt-0 z-10 flex flex-col sm:flex-row items-center gap-4">
+                        <div class="relative w-24 h-24 md:w-28 md:h-28 shrink-0 cartoon-mascot cursor-pointer hover:scale-110 transition-transform" onclick="triggerMascotRoar()">
+                            <svg viewBox="0 0 200 200" class="w-full h-full filter drop-shadow-lg">
+                                <!-- Tiger Body -->
+                                <path d="M50 140 Q100 120 150 140 Q160 190 40 190 Z" fill="#f97316" stroke="#c2410c" stroke-width="5"/>
+                                <!-- Headphones Band with Teal Accent -->
+                                <path d="M45 75 A 60 60 0 0 1 155 75" fill="none" stroke="#0d9488" stroke-width="12" stroke-linecap="round"/>
+                                <rect x="30" y="65" width="22" height="35" rx="8" fill="#0f766e" stroke="#134e4a" stroke-width="4"/>
+                                <rect x="148" y="65" width="22" height="35" rx="8" fill="#0f766e" stroke="#134e4a" stroke-width="4"/>
+                                <!-- Tiger Head -->
+                                <circle cx="100" cy="95" r="50" fill="#fb923c" stroke="#c2410c" stroke-width="5"/>
+                                <!-- Ears -->
+                                <circle cx="60" cy="55" r="18" fill="#fb923c" stroke="#c2410c" stroke-width="4"/>
+                                <circle cx="60" cy="55" r="9" fill="#fef08a"/>
+                                <circle cx="140" cy="55" r="18" fill="#fb923c" stroke="#c2410c" stroke-width="4"/>
+                                <circle cx="140" cy="55" r="9" fill="#fef08a"/>
+                                <!-- Tiger Cheeks/Muzzle -->
+                                <ellipse cx="85" cy="110" rx="16" ry="12" fill="#fff" />
+                                <ellipse cx="115" cy="110" rx="16" ry="12" fill="#fff" />
+                                <!-- Eyes -->
+                                <ellipse cx="80" cy="85" rx="7" ry="10" fill="#1e1b4b"/>
+                                <ellipse cx="120" cy="85" rx="7" ry="10" fill="#1e1b4b"/>
+                                <circle cx="82" cy="82" r="3" fill="#fff"/>
+                                <circle cx="122" cy="82" r="3" fill="#fff"/>
+                                <!-- Nose & Mouth -->
+                                <polygon points="100,100 93,108 107,108" fill="#ea580c"/>
+                                <path d="M93 112 Q100 120 107 112" fill="none" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round"/>
+                                <!-- Tiger Stripes -->
+                                <path d="M100 50 L100 62 M85 55 L92 64 M115 55 L108 64" stroke="#7c2d12" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M52 95 L64 95 M148 95 L136 95" stroke="#7c2d12" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Cute Glasses / Visor -->
+                                <rect x="70" y="78" width="24" height="18" rx="5" fill="#38bdf8" fill-opacity="0.5" stroke="#0284c7" stroke-width="3"/>
+                                <rect x="106" y="78" width="24" height="18" rx="5" fill="#38bdf8" fill-opacity="0.5" stroke="#0284c7" stroke-width="3"/>
+                                <line x1="94" y1="87" x2="106" y2="87" stroke="#0284c7" stroke-width="3"/>
+                            </svg>
+                        </div>
+
+                        <!-- Stats Box -->
+                        <div class="flex sm:flex-col gap-2">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl text-center min-w-[100px] cartoon-badge">
+                                <div id="activeReservationsCount" class="text-xl font-black font-outfit text-amber-300">0</div>
+                                <div class="text-[10px] font-extrabold text-teal-100 uppercase tracking-wider">Tempahan</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl text-center min-w-[100px] cartoon-badge">
+                                <div id="freeSlotsCount" class="text-xl font-black font-outfit text-emerald-300">15</div>
+                                <div class="text-[10px] font-extrabold text-teal-100 uppercase tracking-wider">Slot Kosong</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Slot Grid Selector (Left 2 Columns) -->
+                    <div class="lg:col-span-2 bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                            <div>
+                                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 font-outfit">
+                                    <i data-lucide="clock" class="w-4 h-4 text-teal-600"></i>
+                                    <span>Pilih Slot Masa (Status Tempahan Bilik Multimedia)</span>
+                                </h2>
+                                <p class="text-xs text-slate-600 font-medium mt-0.5">
+                                    Klik slot pertama untuk <strong class="text-teal-700">Slot Mula</strong>, kemudian klik slot seterusnya untuk <strong class="text-teal-700">Slot Akhir</strong>.
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs font-bold text-slate-700">
+                                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-slate-100 border border-slate-300 rounded-xs inline-block"></span> Kosong</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-teal-600 rounded-xs inline-block"></span> Dipilih</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-rose-600 rounded-xs inline-block"></span> Ditempah</span>
+                            </div>
+                        </div>
+
+                        <!-- Grid Container -->
+                        <div id="slotsGrid" class="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+                            <!-- Dynamic Content Rendered by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Booking Form (Right Column) -->
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-sm font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100 font-outfit flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-4 h-4 text-teal-600"></i>
+                                <span>Borang Tempahan Bilik Multimedia</span>
+                            </h2>
+                            
+                            <form id="bookingForm" onsubmit="handleFormSubmit(event)" class="space-y-3.5">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Guru / Jurulatih:</label>
+                                    <input 
+                                        type="text" 
+                                        id="teacherName" 
+                                        required
+                                        placeholder=""
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-400"
+                                    />
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Tingkatan / Darjah:</label>
+                                        <select 
+                                            id="classLevel"
+                                            required
+                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 cursor-pointer"
+                                        >
+                                            <option value="">-- Pilih --</option>
+                                            <option value="Darjah 5">Darjah 5</option>
+                                            <option value="Darjah 6">Darjah 6</option>
+                                            <option value="Tingkatan 1">Tingkatan 1</option>
+                                            <option value="Tingkatan 2">Tingkatan 2</option>
+                                            <option value="Tingkatan 3">Tingkatan 3</option>
+                                            <option value="Tingkatan 4">Tingkatan 4</option>
+                                            <option value="Tingkatan 5">Tingkatan 5</option>
+                                            <option value="Pra-U">Pra-U</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Nama Kelas:</label>
+                                        <select 
+                                            id="classNameSelect"
+                                            required
+                                            onchange="handleClassNameChange(this.value)"
+                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 cursor-pointer mb-1.5"
+                                        >
+                                            <option value="">-- Pilih Kelas --</option>
+                                            <option value="Berlian">Berlian</option>
+                                            <option value="Jaguh">Jaguh</option>
+                                            <option value="Johan">Johan</option>
+                                            <option value="Wira">Wira</option>
+                                            <option value="Juara">Juara</option>
+                                            <option value="Satria">Satria</option>
+                                            <option value="Lain-lain">Lain-lain (Isi Sendiri)</option>
+                                        </select>
+                                        <input 
+                                            type="text" 
+                                            id="className" 
+                                            placeholder="Cth: 5 Arif / 4 Berlian"
+                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-400 hidden"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Tarikh (Hari Ini):</label>
+                                    <input 
+                                        type="date" 
+                                        id="bookingDate" 
+                                        disabled
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-slate-100 text-slate-500 cursor-not-allowed"
+                                    />
+                                    <span class="text-[11px] text-teal-600 font-bold mt-1 block">📌 Tempahan dibuat pada hari semasa sahaja.</span>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Slot Mula:</label>
+                                        <input 
+                                            type="text" 
+                                            id="displayStartSlot"
+                                            readonly
+                                            value="Pilih di grid"
+                                            class="w-full p-2.5 border rounded-xl text-xs font-bold text-slate-400 border-slate-200 bg-slate-50"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1">Slot Akhir:</label>
+                                        <input 
+                                            type="text" 
+                                            id="displayEndSlot"
+                                            readonly
+                                            value="Pilih di grid"
+                                            class="w-full p-2.5 border rounded-xl text-xs font-bold text-slate-400 border-slate-200 bg-slate-50"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Tujuan / Aktiviti P&P:</label>
+                                    <select 
+                                        id="bookingPurposeSelect"
+                                        required
+                                        onchange="handlePurposeChange(this.value)"
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 cursor-pointer mb-1.5"
+                                    >
+                                        <option value="">-- Pilih Tujuan --</option>
+                                        <option value="PdP">PdP</option>
+                                        <option value="Seminar">Seminar</option>
+                                        <option value="Ceramah">Ceramah</option>
+                                        <option value="Bengkel">Bengkel</option>
+                                        <option value="Mesyuarat">Mesyuarat</option>
+                                        <option value="Lain-lain">Lain-lain (Nyatakan)</option>
+                                    </select>
+                                    <input 
+                                        type="text" 
+                                        id="bookingPurpose" 
+                                        placeholder="Nyatakan tujuan / aktiviti..."
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-400 hidden"
+                                    />
+                                </div>
+
+                                <button 
+                                    type="submit" 
+                                    class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 cursor-pointer text-xs transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+                                >
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                    <span>Tempah Sekarang</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Reservations List -->
+                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100 flex items-center justify-between font-outfit">
+                        <span>Senarai Tempahan (Hari Semasa):</span>
+                        <span id="badgeCount" class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full font-bold">
+                            0 Rekod Aktif
+                        </span>
+                    </div>
+
+                    <div id="reservationsList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Dynamic content populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content Jadual -->
+            <div id="tab-content-jadual" class="hidden space-y-6">
+                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800 font-outfit flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-5 h-5 text-teal-600"></i>
+                                <span>Jadual Penuh Slot Masa Bilik Multimedia SSMP</span>
+                            </h2>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">Senarai rasmi 15 slot masa operasi harian untuk latihan dan analisis atlet sekolah.</p>
+                        </div>
+                        <div id="scheduleTodayDate" class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-xl"></div>
+                    </div>
+
+                    <div id="fullScheduleTable" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content Statistik -->
+            <div id="tab-content-statistik" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Kapasiti Slot</div>
+                        <div class="text-3xl font-black text-slate-800 font-outfit mt-1">15 Slot</div>
+                        <div class="text-xs text-teal-600 font-bold mt-2">7:30 AM - 3:00 PM</div>
+                    </div>
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tempahan Hari Ini</div>
+                        <div id="statActiveCount" class="text-3xl font-black text-teal-600 font-outfit mt-1">0</div>
+                        <div class="text-xs text-slate-500 font-medium mt-2">Status Semasa Aktif</div>
+                    </div>
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kadar Penggunaan</div>
+                        <div id="statUsageRate" class="text-3xl font-black text-emerald-600 font-outfit mt-1">0%</div>
+                        <div class="text-xs text-slate-500 font-medium mt-2">Daripada Jumlah Slot Harian</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content Tetapan -->
+            <div id="tab-content-tetapan" class="hidden space-y-6">
+                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800 font-outfit flex items-center gap-2">
+                                <i data-lucide="settings" class="w-5 h-5 text-teal-600"></i>
+                                <span>Tetapan Sistem (Admin SSMP)</span>
+                            </h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Urus pengumuman rasmi, dan semak atau batalkan slot tempahan pengguna.</p>
+                        </div>
+                        <button onclick="lockAdminSession()" class="text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+                            <i data-lucide="lock" class="w-3.5 h-3.5"></i> Kunci Tetapan
+                        </button>
+                    </div>
+
+                    <!-- Modul 1: Tetapan Pengumuman -->
+                    <div class="bg-amber-50/60 border border-amber-200 p-5 rounded-2xl space-y-3">
+                        <h3 class="text-xs font-black text-amber-900 uppercase tracking-wide flex items-center gap-2">
+                            <span>📢</span> Modul Pengumuman Pentadbir
+                        </h3>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Mesej Pengumuman (Akan dipaparkan di Papan Utama):</label>
+                            <textarea 
+                                id="adminAnnouncementInput" 
+                                rows="2"
+                                placeholder="Contoh: Bilik Multimedia ditutup sementara pada jam 2:00 PM untuk penyelenggaraan..."
+                                class="w-full p-2.5 border border-amber-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
+                            ></textarea>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="saveAdminAnnouncement()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-xl text-xs cursor-pointer transition shadow-xs flex items-center gap-1.5">
+                                <i data-lucide="megaphone" class="w-4 h-4"></i> Simpan & Siar Pengumuman
+                            </button>
+                            <button onclick="clearAdminAnnouncement()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 px-3 rounded-xl text-xs cursor-pointer transition">
+                                Padam Pengumuman
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modul 2: Lihat & Batal Slot Tempahan -->
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-black text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                                <i data-lucide="list-checks" class="w-4 h-4 text-teal-600"></i>
+                                <span>Pengurusan & Pembatalan Slot Tempahan Hari Ini</span>
+                            </h3>
+                            <span id="adminSlotCountBadge" class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-0.5 rounded-full font-bold">0 Slot</span>
+                        </div>
+
+                        <div id="adminBookingsTable" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-white">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Digital Token Modal -->
+    <div id="receiptModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl space-y-5 border-4 border-teal-300 animate-fadeIn relative">
+            
+            <button onclick="closeReceiptModal()" class="no-print absolute top-5 right-5 text-slate-400 hover:text-slate-600 cursor-pointer">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="text-center space-y-2 pb-4 border-b border-dashed border-slate-200 relative">
+                <!-- Cartoon Verification Stamp -->
+                <div class="absolute -top-1 left-2 transform -rotate-12 bg-amber-400 text-teal-950 font-black text-[10px] px-2.5 py-1 rounded-lg border-2 border-amber-600 shadow-sm flex items-center gap-1 select-none">
+                    <span>🐯</span> SSMP VERIFIED
+                </div>
+
+                <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-2 border-2 border-teal-300 shadow-xs">
+                    <i data-lucide="ticket" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-black text-slate-800 font-outfit uppercase tracking-tight flex items-center justify-center gap-1.5">
+                    <span>TOKEN DIGITAL TEMPAHAN</span>
+                    <span>🎟️</span>
+                </h3>
+                <p class="text-xs font-bold text-teal-600">SEKOLAH SUKAN MALAYSIA PAHANG</p>
+                <div class="text-[10px] font-mono text-slate-400 font-semibold" id="receiptTokenId">TOKEN-00000000</div>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-400 font-medium">Nama Guru:</span>
+                    <span id="receiptTeacher" class="font-bold text-slate-800 text-right"></span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-400 font-medium">Kelas / Tingkatan:</span>
+                    <span id="receiptClass" class="font-bold text-teal-700 text-right"></span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-400 font-medium">Tarikh Tempahan:</span>
+                    <span id="receiptDate" class="font-bold text-slate-800 text-right"></span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-400 font-medium">Masa & Slot:</span>
+                    <span id="receiptSlot" class="font-bold text-slate-800 text-right"></span>
+                </div>
+                <div class="py-1">
+                    <span class="text-slate-400 font-medium block mb-1">Tujuan / Aktiviti:</span>
+                    <div id="receiptPurpose" class="font-semibold text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-100"></div>
+                </div>
+            </div>
+
+            <div class="pt-4 flex items-center justify-end gap-3 no-print border-t border-slate-100">
+                <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Cetak Token Digital
+                </button>
+                <button onclick="closeReceiptModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 px-4 rounded-xl text-xs cursor-pointer transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl space-y-5 border border-slate-100 animate-fadeIn relative text-center">
+            
+            <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 cursor-pointer">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mx-auto">
+                <i data-lucide="shield-lock" class="w-6 h-6"></i>
+            </div>
+
+            <div>
+                <h3 class="text-base font-bold text-slate-800 font-outfit">Akses Tetapan Admin</h3>
+                <p class="text-xs text-slate-500 mt-1">Sila masukkan kata laluan keselamatan untuk membuka ruangan tetapan sistem.</p>
+            </div>
+
+            <form onsubmit="handleAdminAuthSubmit(event)" class="space-y-4">
+                <div>
+                    <input 
+                        type="password" 
+                        id="adminPasswordInput"
+                        placeholder="Masukkan Kata Laluan (PIN)" 
+                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 text-center focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50"
+                    />
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="closeAdminAuthModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 rounded-xl text-xs transition cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="submit" class="w-1/2 bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl text-xs transition cursor-pointer shadow-xs">
+                        Buka Akses
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Time slot specifications (7:30 AM to 3:00 PM)
+        const TIME_SLOTS = [
+            { id: 1, label: "Slot 1", time: "07:30 - 08:00" },
+            { id: 2, label: "Slot 2", time: "08:00 - 08:30" },
+            { id: 3, label: "Slot 3", time: "08:30 - 09:00" },
+            { id: 4, label: "Slot 4", time: "09:00 - 09:30" },
+            { id: 5, label: "Slot 5", time: "09:30 - 10:00" },
+            { id: 6, label: "Slot 6", time: "10:00 - 10:30" },
+            { id: 7, label: "Slot 7", time: "10:30 - 11:00" },
+            { id: 8, label: "Slot 8", time: "11:00 - 11:30" },
+            { id: 9, label: "Slot 9", time: "11:30 - 12:00" },
+            { id: 10, label: "Slot 10", time: "12:00 - 12:30" },
+            { id: 11, label: "Slot 11", time: "12:30 - 13:00" },
+            { id: 12, label: "Slot 12", time: "13:00 - 13:30" },
+            { id: 13, label: "Slot 13", time: "13:30 - 14:00" },
+            { id: 14, label: "Slot 14", time: "14:00 - 14:30" },
+            { id: 15, label: "Slot 15", time: "14:30 - 15:00" }
+        ];
+
+        // Master state for active bookings
+        let bookings = [];
+
+        // Admin authentication state
+        let isAdminUnlocked = false;
+
+        let pushNotificationsEnabled = false;
+
+        // Live clock updater
+        function updateClock() {
+            const now = new Date();
+            const clockText = document.getElementById('clockText');
+            if (clockText) {
+                clockText.innerText = now.toLocaleTimeString('ms-MY', { hour12: false });
+            }
+        }
+
+        // Floating notification alert box handler
+        function showAlert(type, message) {
+            const alertBox = document.getElementById('alertBox');
+            if (!alertBox) return;
+
+            let bgClass = "bg-teal-100 border-teal-300 text-teal-900";
+            let icon = "info";
+
+            if (type === 'error') {
+                bgClass = "bg-rose-100 border-rose-300 text-rose-900";
+                icon = "alert-circle";
+            } else if (type === 'success') {
+                bgClass = "bg-emerald-100 border-emerald-300 text-emerald-900";
+                icon = "check-circle-2";
+            }
+
+            alertBox.className = `p-4 rounded-xl text-xs font-bold shadow-sm flex items-center gap-2.5 border ${bgClass} animate-fadeIn`;
+            alertBox.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
+            alertBox.classList.remove('hidden');
+
+            safeCreateIcons();
+
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Full schedule table renderer for Tab Jadual
+        function renderFullScheduleTable() {
+            const container = document.getElementById('fullScheduleTable');
+            if (!container) return;
+
+            const todayBookings = getTodayBookings();
+            container.innerHTML = '';
+
+            TIME_SLOTS.forEach(slot => {
+                const booking = todayBookings.find(b => slot.id >= b.startSlot && slot.id <= b.endSlot);
+                const row = document.createElement('div');
+                row.className = `p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 ${booking ? 'bg-rose-50/60' : 'bg-white hover:bg-slate-50'}`;
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg ${booking ? 'bg-rose-100 text-rose-700' : 'bg-teal-100 text-teal-700'} flex items-center justify-center font-bold text-xs shrink-0 font-outfit">
+                            ${slot.id}
+                        </span>
+                        <div>
+                            <div class="text-xs sm:text-sm font-black text-slate-800 font-outfit">${slot.label}: ${slot.time}</div>
+                            <div class="text-[11px] font-semibold ${booking ? 'text-rose-600' : 'text-emerald-600'}">
+                                ${booking ? `Ditempah oleh ${booking.teacher} (${booking.classLevel} ${booking.className})` : 'Tersedia untuk tempahan'}
+                            </div>
+                        </div>
+                    </div>
+                    ${!booking ? `
+                        <button onclick="quickSelectSlot(${slot.id})" class="text-xs font-bold text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer self-end sm:self-auto">
+                            Pilih Slot Ini
+                        </button>
+                    ` : `
+                        <span class="text-[11px] font-bold text-rose-600 bg-rose-100 px-2.5 py-1 rounded-lg border border-rose-200">
+                            Tidak Tersedia
+                        </span>
+                    `}
+                `;
+
+                container.appendChild(row);
+            });
+
+            safeCreateIcons();
+        }
+
+        // Safe wrapper for Lucide icon initialization
+        function safeCreateIcons() {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            }
+        }
+
+        // Selection state for grid
+        let selectedStartSlot = null;
+        let selectedEndSlot = null;
+        let activeMailtoUrl = "";
+        let currentAnnouncement = localStorage.getItem('ssmp_announcement') || "";
+
+        // Helper to get local YYYY-MM-DD date string
+        function getTodayString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Load persisted bookings from localStorage
+        function loadBookings() {
+            try {
+                const saved = localStorage.getItem('ssmp_bookings');
+                if (saved) {
+                    bookings = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error("Gagal memuatkan tempahan dari localStorage", e);
+            }
+        }
+
+        // Save bookings to localStorage
+        function saveBookings() {
+            try {
+                localStorage.setItem('ssmp_bookings', JSON.stringify(bookings));
+            } catch (e) {
+                console.error("Gagal menyimpan tempahan ke localStorage", e);
+            }
+        }
+
+        window.onload = function() {
+            safeCreateIcons();
+            loadBookings();
+            
+            const announceInput = document.getElementById('adminAnnouncementInput');
+            if (announceInput) announceInput.value = currentAnnouncement;
+            renderAnnouncementDisplay();
+
+            const todayStr = getTodayString();
+            document.getElementById('bookingDate').value = todayStr;
+            
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = new Date().toLocaleDateString('ms-MY', dateOptions);
+            const schedDateEl = document.getElementById('scheduleTodayDate');
+            if (schedDateEl) schedDateEl.innerText = formattedDate;
+
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            checkNotificationPermissionStatus();
+            renderSlotGrid();
+            renderReservationsList();
+            renderFullScheduleTable();
+            renderAdminBookingsTable();
+            updateStatistics();
+        };
+
+        function checkNotificationPermissionStatus() {
+            if ("Notification" in window && Notification.permission === "granted") {
+                pushNotificationsEnabled = true;
+                updateNotifyBtnUI(true);
+            } else {
+                pushNotificationsEnabled = false;
+                updateNotifyBtnUI(false);
+            }
+        }
+
+        function togglePushNotifications() {
+            if (!("Notification" in window)) {
+                showAlert('error', 'Pelayar anda tidak menyokong notifikasi desktop.');
+                return;
+            }
+
+            if (Notification.permission === "granted") {
+                pushNotificationsEnabled = !pushNotificationsEnabled;
+                updateNotifyBtnUI(pushNotificationsEnabled);
+                showAlert(pushNotificationsEnabled ? 'success' : 'info', 
+                    pushNotificationsEnabled ? 'Notifikasi paparan automatik diaktifkan!' : 'Notifikasi paparan dinyahaktifkan.');
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        pushNotificationsEnabled = true;
+                        updateNotifyBtnUI(true);
+                        showAlert('success', 'Kebenaran notifikasi diluluskan! Notifikasi automatik sedia digunakan.');
+                        sendSystemNotification("Bilik Multimedia SSMP", "Notifikasi automatik berjaya diaktifkan!");
+                    } else {
+                        showAlert('error', 'Kebenaran notifikasi ditolak.');
+                    }
+                });
+            } else {
+                showAlert('error', 'Kebenaran notifikasi disekat oleh pelayar. Sila benarkan notifikasi di tetapan browser anda.');
+            }
+        }
+
+        function updateNotifyBtnUI(enabled) {
+            const btn = document.getElementById('notifyBtn');
+            const txt = document.getElementById('notifyBtnText');
+            if (!btn || !txt) return;
+
+            if (enabled) {
+                btn.className = "text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-teal-50 text-teal-700 border-teal-300 shadow-xs cursor-pointer";
+                txt.innerText = "Notifikasi: Aktif";
+            } else {
+                btn.className = "text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-slate-100 text-slate-600 border-slate-200 hover:bg-teal-50 hover:text-teal-700 cursor-pointer";
+                txt.innerText = "Aktifkan Notifikasi";
+            }
+            safeCreateIcons();
+        }
+
+        function switchTab(tabName) {
+            if (tabName === 'tetapan' && !isAdminUnlocked) {
+                promptAdminPassword();
+                return;
+            }
+
+            if (tabName === 'tetapan') {
+                renderAdminBookingsTable();
+            }
+
+            const tabs = ['utama', 'jadual', 'statistik', 'tetapan'];
+            
+            tabs.forEach(t => {
+                const content = document.getElementById(`tab-content-${t}`);
+                const navBtn = document.getElementById(`nav-${t}`);
+                
+                if (t === tabName) {
+                    content.classList.remove('hidden');
+                    content.classList.add('animate-fadeIn');
+                    navBtn.className = "w-10 h-10 md:w-full md:h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center transition cursor-pointer shadow-xs font-bold relative";
+                } else {
+                    content.classList.add('hidden');
+                    content.classList.remove('animate-fadeIn');
+                    navBtn.className = "w-10 h-10 md:w-full md:h-12 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition cursor-pointer relative";
+                }
+            });
+
+            safeCreateIcons();
+        }
+
+        function renderSlotGrid() {
+            const grid = document.getElementById('slotsGrid');
+            grid.innerHTML = '';
+
+            const todayBookings = getTodayBookings();
+
+            TIME_SLOTS.forEach(slot => {
+                const isBooked = todayBookings.some(b => slot.id >= b.startSlot && slot.id <= b.endSlot);
+
+                let isSelected = false;
+                if (selectedStartSlot !== null && selectedEndSlot !== null) {
+                    isSelected = slot.id >= selectedStartSlot && slot.id <= selectedEndSlot;
+                } else if (selectedStartSlot !== null) {
+                    isSelected = slot.id === selectedStartSlot;
+                }
+
+                const card = document.createElement('button');
+                card.type = 'button';
+                
+                let baseClasses = "p-2.5 md:p-3 rounded-xl border text-left flex flex-col justify-between transition-all duration-150 min-h-[85px] relative cursor-pointer ";
+                
+                if (isBooked) {
+                    baseClasses += "bg-rose-50 border-rose-200 text-rose-800 opacity-80 cursor-not-allowed";
+                } else if (isSelected) {
+                    baseClasses += "bg-teal-600 border-teal-700 text-white shadow-md scale-[1.02] z-10";
+                } else {
+                    baseClasses += "bg-slate-50 border-slate-200 hover:border-teal-400 hover:bg-teal-50/50 text-slate-700";
+                }
+
+                card.className = baseClasses;
+                card.onclick = () => handleSlotClick(slot.id, isBooked);
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between w-full">
+                        <span class="text-[10px] md:text-xs font-bold ${isSelected ? 'text-teal-100' : isBooked ? 'text-rose-400' : 'text-slate-400'} uppercase font-jakarta tracking-wide">${slot.label}</span>
+                        ${isBooked ? '<i data-lucide="lock" class="w-3.5 h-3.5 text-rose-500"></i>' : isSelected ? '<i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-white"></i>' : ''}
+                    </div>
+                    <div class="mt-1 font-jakarta">
+                        <div class="text-xs md:text-sm font-extrabold ${isSelected ? 'text-white' : 'text-slate-800'}">${slot.time}</div>
+                        <div class="text-[10px] md:text-[11px] font-bold ${isSelected ? 'text-teal-100' : isBooked ? 'text-rose-600' : 'text-teal-600'} mt-0.5">
+                            ${isBooked ? 'DITEMPAH' : isSelected ? 'DIPILIH' : 'KOSONG'}
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            safeCreateIcons();
+        }
+
+        function updateSlotInputsDisplay() {
+            const startInput = document.getElementById('displayStartSlot');
+            const endInput = document.getElementById('displayEndSlot');
+
+            if (selectedStartSlot) {
+                const sObj = TIME_SLOTS.find(s => s.id === selectedStartSlot);
+                startInput.value = `${sObj.label} (${sObj.time.split(' - ')[0]})`;
+                startInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-teal-700 border-teal-300 bg-teal-50";
+            } else {
+                startInput.value = "Pilih di grid";
+                startInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-slate-400 border-slate-200 bg-slate-50";
+            }
+
+            if (selectedEndSlot) {
+                const eObj = TIME_SLOTS.find(s => s.id === selectedEndSlot);
+                endInput.value = `${eObj.label} (${eObj.time.split(' - ')[1]})`;
+                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-teal-700 border-teal-300 bg-teal-50";
+            } else if (selectedStartSlot) {
+                const sObj = TIME_SLOTS.find(s => s.id === selectedStartSlot);
+                endInput.value = `${sObj.label} (${sObj.time.split(' - ')[1]})`;
+                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-teal-700 border-teal-300 bg-teal-50";
+            } else {
+                endInput.value = "Pilih di grid";
+                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-slate-400 border-slate-200 bg-slate-50";
+            }
+        }
+
+        function renderReservationsList(filterQuery = '') {
+            const container = document.getElementById('reservationsList');
+            const badgeCount = document.getElementById('badgeCount');
+            let todayBookings = getTodayBookings();
+
+            if (filterQuery) {
+                todayBookings = todayBookings.filter(b => 
+                    b.teacher.toLowerCase().includes(filterQuery) ||
+                    b.purpose.toLowerCase().includes(filterQuery) ||
+                    b.className.toLowerCase().includes(filterQuery)
+                );
+            }
+
+            badgeCount.innerText = `${todayBookings.length} Rekod Aktif`;
+            container.innerHTML = '';
+
+            if (todayBookings.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-8 text-center bg-teal-50/50 rounded-2xl border-2 border-dashed border-teal-200 p-6">
+                        <!-- Cartoon Mascot Sleepy Graphic -->
+                        <div class="w-20 h-20 mx-auto mb-3 opacity-90 cartoon-mascot">
+                            <svg viewBox="0 0 200 200" class="w-full h-full filter drop-shadow-sm">
+                                <circle cx="100" cy="100" r="70" fill="#fef08a" stroke="#ca8a04" stroke-width="6"/>
+                                <circle cx="70" cy="85" r="8" fill="#854d0e"/>
+                                <circle cx="130" cy="85" r="8" fill="#854d0e"/>
+                                <path d="M80 120 Q100 140 120 120" fill="none" stroke="#854d0e" stroke-width="6" stroke-linecap="round"/>
+                                <text x="145" y="60" font-size="32" font-weight="bold" fill="#0d9488">Z</text>
+                                <text x="165" y="40" font-size="24" font-weight="bold" fill="#14b8a6">z</text>
+                            </svg>
+                        </div>
+                        <h4 class="text-xs font-black text-teal-900 uppercase tracking-wide">Belum Ada Tempahan Hari Ini 🎬</h4>
+                        <p class="text-[11px] font-semibold text-teal-600/80 mt-1">Bilik Multimedia masih kosong! Pilih slot pada grid di atas untuk buat tempahan pertama.</p>
+                    </div>
+                `;
+                safeCreateIcons();
+                return;
+            }
+
+            todayBookings.forEach(booking => {
+                const startObj = TIME_SLOTS.find(s => s.id === booking.startSlot);
+                const endObj = TIME_SLOTS.find(s => s.id === booking.endSlot);
+
+                const card = document.createElement('div');
+                card.className = 'bg-slate-50/80 border-2 border-teal-100 p-4 rounded-2xl space-y-3 hover:border-teal-300 transition shadow-2xs cartoon-badge';
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono font-bold text-slate-400 block">${booking.id}</span>
+                            <h3 class="text-xs font-black text-slate-800 flex items-center gap-1">
+                                <span>${booking.teacher}</span>
+                                <span class="text-xs">🏆</span>
+                            </h3>
+                            <p class="text-[11px] font-bold text-teal-700">${booking.classLevel} ${booking.className}</p>
+                        </div>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2.5 py-1 rounded-full border border-emerald-300 shadow-2xs flex items-center gap-1">
+                            <span>✅</span> Disahkan
+                        </span>
+                    </div>
+                    
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 space-y-1 text-xs">
+                        <div class="flex items-center gap-1.5 text-slate-700 font-bold">
+                            <i data-lucide="clock" class="w-3.5 h-3.5 text-teal-600"></i>
+                            <span>Slot ${booking.startSlot} - ${booking.endSlot}</span>
+                            <span class="text-[10px] text-slate-400 font-normal">(${startObj.time.split(' - ')[0]} - ${endObj.time.split(' - ')[1]})</span>
+                        </div>
+                        <div class="text-[11px] text-slate-600 font-semibold pl-5 line-clamp-2">${booking.purpose}</div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between gap-2">
+                        <button onclick="openReceiptModal('${booking.id}')" class="text-[11px] font-black text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-lg border border-teal-200 transition flex items-center gap-1 cursor-pointer">
+                            <i data-lucide="ticket" class="w-3.5 h-3.5"></i> Token Digital 🎟️
+                        </button>
+                        <button onclick="deleteBooking('${booking.id}')" class="text-[11px] font-bold text-rose-500 hover:text-rose-700 flex items-center gap-1 cursor-pointer">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Padam
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            safeCreateIcons();
+        }
+
+        const MASCOT_QUOTES = [
+            "Roar! Sedia untuk tayangan & analisis sukan hari ini? 🐯✨",
+            "Sila pilih slot pertama dan slot akhir pada grid slot masa! 🕒",
+            "Jangan lupa isi nama guru dan kelas dengan lengkap ya! 📝",
+            "Bilik Multimedia SSMP dilengkapi peralatan audiovisual terkini! 🍿🎬",
+            "Gunakan Token Digital untuk pengesahan penggunaan bilik! 🎟️"
+        ];
+
+        function triggerMascotRoar() {
+            const speechEl = document.getElementById('mascotSpeech');
+            const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
+            if (speechEl) {
+                speechEl.innerText = randomQuote;
+            }
+        }
+
+        function toggleMascotWidget() {
+            const widget = document.getElementById('mascotBubbleWidget');
+            const textEl = document.getElementById('mascotWidgetText');
+            if (!widget) return;
+
+            if (widget.classList.contains('hidden')) {
+                const randomQuote = MASCOT_QUOTES[Math.floor(Math.random() * MASCOT_QUOTES.length)];
+                if (textEl) textEl.innerText = randomQuote;
+                widget.classList.remove('hidden');
+            } else {
+                widget.classList.add('hidden');
+            }
+        }
+
+        // Get bookings for the current day
+        function getTodayBookings() {
+            const todayStr = getTodayString();
+            return bookings.filter(b => b.date === todayStr);
+        }
+
+        // Slot selection handler on the grid
+        function handleSlotClick(slotId, isBooked) {
+            if (isBooked) {
+                showAlert('error', 'Slot ini telah ditempah. Sila pilih slot yang masih kosong.');
+                return;
+            }
+
+            if (selectedStartSlot === null || (selectedStartSlot !== null && selectedEndSlot !== null)) {
+                selectedStartSlot = slotId;
+                selectedEndSlot = null;
+            } else if (selectedStartSlot !== null && selectedEndSlot === null) {
+                if (slotId < selectedStartSlot) {
+                    selectedStartSlot = slotId;
+                    selectedEndSlot = null;
+                } else {
+                    const todayBookings = getTodayBookings();
+                    let hasOverlap = false;
+                    for (let i = selectedStartSlot; i <= slotId; i++) {
+                        if (todayBookings.some(b => i >= b.startSlot && i <= b.endSlot)) {
+                            hasOverlap = true;
+                            break;
+                        }
+                    }
+                    if (hasOverlap) {
+                        showAlert('error', 'Terdapat slot yang telah ditempah di antara slot pilihan anda.');
+                        selectedStartSlot = slotId;
+                        selectedEndSlot = null;
+                    } else {
+                        selectedEndSlot = slotId;
+                    }
+                }
+            }
+
+            renderSlotGrid();
+            updateSlotInputsDisplay();
+        }
+
+        // Quick select slot from full schedule table
+        function quickSelectSlot(slotId) {
+            switchTab('utama');
+            handleSlotClick(slotId, false);
+        }
+
+        // Toggle custom class name input
+        function handleClassNameChange(value) {
+            const customInput = document.getElementById('className');
+            if (value === 'Lain-lain') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+                customInput.value = '';
+            }
+        }
+
+        // Toggle custom purpose input
+        function handlePurposeChange(value) {
+            const customInput = document.getElementById('bookingPurpose');
+            if (value === 'Lain-lain') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+                customInput.value = '';
+            }
+        }
+
+        // Submit new booking form
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            if (!selectedStartSlot) {
+                showAlert('error', 'Sila pilih sekurang-kurangnya satu slot masa pada grid.');
+                return;
+            }
+
+            const endSlot = selectedEndSlot || selectedStartSlot;
+            const teacherName = document.getElementById('teacherName').value.trim();
+            const classLevel = document.getElementById('classLevel').value;
+            const classNameSelect = document.getElementById('classNameSelect').value;
+            const customClassName = document.getElementById('className').value.trim();
+            const className = classNameSelect === 'Lain-lain' ? customClassName : classNameSelect;
+
+            const purposeSelect = document.getElementById('bookingPurposeSelect').value;
+            const customPurpose = document.getElementById('bookingPurpose').value.trim();
+            const purpose = purposeSelect === 'Lain-lain' ? customPurpose : purposeSelect;
+
+            const todayStr = getTodayString();
+            const bookingId = 'SSMP-' + Math.floor(100000 + Math.random() * 900000);
+
+            const newBooking = {
+                id: bookingId,
+                teacher: teacherName,
+                classLevel: classLevel,
+                className: className,
+                date: todayStr,
+                startSlot: selectedStartSlot,
+                endSlot: endSlot,
+                purpose: purpose
+            };
+
+            bookings.push(newBooking);
+            saveBookings();
+
+            // Reset slot selections
+            selectedStartSlot = null;
+            selectedEndSlot = null;
+
+            // Reset form controls
+            document.getElementById('bookingForm').reset();
+            document.getElementById('className').classList.add('hidden');
+            document.getElementById('bookingPurpose').classList.add('hidden');
+
+            renderSlotGrid();
+            updateSlotInputsDisplay();
+            renderReservationsList();
+            renderFullScheduleTable();
+            updateStatistics();
+
+            showAlert('success', `Tempahan berjaya disimpan! Token Digital: ${bookingId}`);
+
+            // Trigger push notification
+            sendSystemNotification('Tempahan Baharu Bilik Multimedia', `${teacherName} telah menempah Slot ${newBooking.startSlot}-${newBooking.endSlot} untuk ${classLevel} ${className}.`);
+
+            // Automatically open Digital Token modal
+            openReceiptModal(bookingId);
+        }
+
+        // Delete an existing booking
+        function deleteBooking(bookingId) {
+            bookings = bookings.filter(b => b.id !== bookingId);
+            saveBookings();
+            renderSlotGrid();
+            updateSlotInputsDisplay();
+            renderReservationsList();
+            renderFullScheduleTable();
+            renderAdminBookingsTable();
+            updateStatistics();
+            showAlert('info', 'Rekod tempahan telah dipadamkan.');
+        }
+
+        // Render table of bookings inside Admin Tetapan panel
+        function renderAdminBookingsTable() {
+            const container = document.getElementById('adminBookingsTable');
+            const badge = document.getElementById('adminSlotCountBadge');
+            if (!container) return;
+
+            const todayBookings = getTodayBookings();
+            if (badge) badge.innerText = `${todayBookings.length} Slot Ditempah`;
+
+            if (todayBookings.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 text-center text-slate-400 text-xs font-bold">
+                        Tiada slot tempahan aktif untuk hari ini.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            todayBookings.forEach(booking => {
+                const startObj = TIME_SLOTS.find(s => s.id === booking.startSlot);
+                const endObj = TIME_SLOTS.find(s => s.id === booking.endSlot);
+
+                const row = document.createElement('div');
+                row.className = "p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50 transition";
+
+                row.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">${booking.id}</span>
+                            <span class="text-xs font-bold text-slate-800">${booking.teacher}</span>
+                            <span class="text-xs font-semibold text-slate-500">(${booking.classLevel} ${booking.className})</span>
+                        </div>
+                        <div class="text-[11px] font-semibold text-teal-700 mt-1">
+                            Slot ${booking.startSlot} hingga ${booking.endSlot} • ${startObj.time.split(' - ')[0]} - ${endObj.time.split(' - ')[1]}
+                        </div>
+                        <div class="text-[11px] text-slate-500 mt-0.5 italic">Tujuan: ${booking.purpose}</div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="openReceiptModal('${booking.id}')" class="text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer">
+                            Lihat Token
+                        </button>
+                        <button onclick="deleteBooking('${booking.id}')" class="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Batal Slot
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(row);
+            });
+
+            safeCreateIcons();
+        }
+
+        // Announcement Functions
+        function saveAdminAnnouncement() {
+            const input = document.getElementById('adminAnnouncementInput');
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) {
+                showAlert('error', 'Sila masukkan mesej pengumuman terlebih dahulu.');
+                return;
+            }
+            currentAnnouncement = text;
+            localStorage.setItem('ssmp_announcement', currentAnnouncement);
+            renderAnnouncementDisplay();
+            showAlert('success', 'Pengumuman pentadbir berjaya disiarkan!');
+        }
+
+        function clearAdminAnnouncement() {
+            currentAnnouncement = "";
+            localStorage.removeItem('ssmp_announcement');
+            const input = document.getElementById('adminAnnouncementInput');
+            if (input) input.value = "";
+            renderAnnouncementDisplay();
+            showAlert('info', 'Pengumuman pentadbir telah dipadamkan.');
+        }
+
+        function renderAnnouncementDisplay() {
+            const banner = document.getElementById('announcementBanner');
+            const display = document.getElementById('announcementTextDisplay');
+            if (!banner || !display) return;
+
+            if (currentAnnouncement) {
+                display.innerText = currentAnnouncement;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function dismissAnnouncement() {
+            const banner = document.getElementById('announcementBanner');
+            if (banner) banner.classList.add('hidden');
+        }
+
+        // Admin Auth Modal handlers
+        function promptAdminPassword() {
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminPasswordInput').focus();
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        // Digital Token Modal Handlers
+        function openReceiptModal(bookingId) {
+            const booking = bookings.find(b => b.id === bookingId);
+            if (!booking) {
+                showAlert('error', 'Rekod tempahan tidak dijumpai.');
+                return;
+            }
+
+            const startObj = TIME_SLOTS.find(s => s.id === booking.startSlot);
+            const endObj = TIME_SLOTS.find(s => s.id === booking.endSlot);
+
+            const receiptTokenId = document.getElementById('receiptTokenId');
+            const receiptTeacher = document.getElementById('receiptTeacher');
+            const receiptClass = document.getElementById('receiptClass');
+            const receiptDate = document.getElementById('receiptDate');
+            const receiptSlot = document.getElementById('receiptSlot');
+            const receiptPurpose = document.getElementById('receiptPurpose');
+
+            if (receiptTokenId) receiptTokenId.innerText = booking.id;
+            if (receiptTeacher) receiptTeacher.innerText = booking.teacher;
+            if (receiptClass) receiptClass.innerText = `${booking.classLevel} ${booking.className}`;
+            if (receiptDate) receiptDate.innerText = booking.date;
+            if (receiptSlot) {
+                const startTime = startObj ? startObj.time.split(' - ')[0] : '';
+                const endTime = endObj ? endObj.time.split(' - ')[1] : '';
+                receiptSlot.innerText = `Slot ${booking.startSlot} - ${booking.endSlot} (${startTime} - ${endTime})`;
+            }
+            if (receiptPurpose) receiptPurpose.innerText = booking.purpose;
+
+            const modal = document.getElementById('receiptModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+            safeCreateIcons();
+        }
+
+        function closeReceiptModal() {
+            const modal = document.getElementById('receiptModal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function handleAdminAuthSubmit(event) {
+            event.preventDefault();
+            const pin = document.getElementById('adminPasswordInput').value;
+            if (pin === '1234' || pin === 'admin') {
+                isAdminUnlocked = true;
+                closeAdminAuthModal();
+                switchTab('tetapan');
+                showAlert('success', 'Akses Tetapan Admin telah dibuka.');
+            } else {
+                showAlert('error', 'Kata laluan salah. Akses ditolak.');
+            }
+        }
+
+        function lockAdminSession() {
+            isAdminUnlocked = false;
+            switchTab('utama');
+            showAlert('info', 'Sesi Tetapan Admin telah dikunci.');
+        }
+
+        // Trigger browser system notification
+        function sendSystemNotification(title, body) {
+            if (pushNotificationsEnabled && "Notification" in window && Notification.permission === "granted") {
+                new Notification(title, {
+                    body: body,
+                    icon: 'https://cdn-icons-png.flaticon.com/512/3208/3208726.png'
+                });
+            }
+        }
+
+        // Update statistics overview
+        function updateStatistics() {
+            const todayBookings = getTodayBookings();
+            
+            let bookedSlotCount = 0;
+            TIME_SLOTS.forEach(slot => {
+                if (todayBookings.some(b => slot.id >= b.startSlot && slot.id <= b.endSlot)) {
+                    bookedSlotCount++;
+                }
+            });
+
+            const totalSlots = TIME_SLOTS.length;
+            const freeSlots = totalSlots - bookedSlotCount;
+            const usagePercent = Math.round((bookedSlotCount / totalSlots) * 100);
+
+            const activeCountEl = document.getElementById('activeReservationsCount');
+            const freeSlotsEl = document.getElementById('freeSlotsCount');
+            const statActiveEl = document.getElementById('statActiveCount');
+            const statUsageEl = document.getElementById('statUsageRate');
+
+            if (activeCountEl) activeCountEl.innerText = todayBookings.length;
+            if (freeSlotsEl) freeSlotsEl.innerText = freeSlots;
+            if (statActiveEl) statActiveEl.innerText = todayBookings.length;
+            if (statUsageEl) statUsageEl.innerText = `${usagePercent}%`;
+        }
+
+        // Realtime search handler
+        function handleSearch(query) {
+            const q = query.toLowerCase().trim();
+            renderReservationsList(q);
+        }
+    </script>
+</body>
+</html>
