@@ -32,8 +32,8 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f4fbf7;
-            background-image: radial-gradient(#0d9488 0.85px, transparent 0.85px), radial-gradient(#0d9488 0.85px, #f4fbf7 0.85px);
+            background-color: #faf5ff;
+            background-image: radial-gradient(#c084fc 0.85px, transparent 0.85px), radial-gradient(#c084fc 0.85px, #faf5ff 0.85px);
             background-size: 30px 30px;
             background-position: 0 0, 15px 15px;
             animation: floatPolkaDots 25s linear infinite;
@@ -44,7 +44,7 @@
         }
         .cartoon-badge:hover {
             transform: translateY(-3px) scale(1.05) rotate(2deg);
-            box-shadow: 5px 5px 0px rgba(13, 148, 136, 0.35);
+            box-shadow: 5px 5px 0px rgba(147, 51, 234, 0.35);
         }
         .cartoon-mascot {
             animation: cartoonBounce 3.5s ease-in-out infinite;
@@ -85,17 +85,17 @@
         }
     </style>
 </head>
-<body class="text-slate-800 flex antialiased selection:bg-teal-500 selection:text-white min-h-screen">
+<body class="text-slate-800 flex antialiased selection:bg-purple-500 selection:text-white min-h-screen">
 
     <!-- Left Navigation Bar -->
-    <aside class="bg-white/90 backdrop-blur-md border-r border-slate-200 flex flex-col justify-between transition-all duration-300 z-30 w-16 md:w-20 shrink-0 shadow-xs">
+    <aside class="bg-white/90 backdrop-blur-md border-r border-purple-100 flex flex-col justify-between transition-all duration-300 z-30 w-16 md:w-20 shrink-0 shadow-xs">
         <div class="flex flex-col items-center py-6 space-y-6">
-            <div class="w-10 h-10 md:w-12 md:h-12 bg-teal-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-teal-500/30">
+            <div class="w-10 h-10 md:w-12 md:h-12 bg-purple-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30">
                 <i data-lucide="monitor-play" class="w-5 h-5 md:w-6 md:h-6"></i>
             </div>
 
             <nav class="flex flex-col space-y-3 w-full px-2 md:px-3">
-                <button onclick="switchTab('utama')" id="nav-utama" class="w-10 h-10 md:w-full md:h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center transition cursor-pointer shadow-xs font-bold" title="Utama (Dashboard)">
+                <button onclick="switchTab('utama')" id="nav-utama" class="w-10 h-10 md:w-full md:h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center transition cursor-pointer shadow-xs font-bold" title="Utama (Dashboard)">
                     <i data-lucide="home" class="w-5 h-5"></i>
                 </button>
                 <button onclick="switchTab('jadual')" id="nav-jadual" class="w-10 h-10 md:w-full md:h-12 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition cursor-pointer" title="Jadual Slot">
@@ -106,13 +106,13 @@
                 </button>
                 <button onclick="switchTab('tetapan')" id="nav-tetapan" class="w-10 h-10 md:w-full md:h-12 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition cursor-pointer relative" title="Tetapan Sistem (Khusus Admin)">
                     <i data-lucide="settings" class="w-5 h-5"></i>
-                    <i data-lucide="lock" class="w-3 h-3 text-teal-600 absolute bottom-1 right-1"></i>
+                    <i data-lucide="lock" class="w-3 h-3 text-purple-600 absolute bottom-1 right-1"></i>
                 </button>
             </nav>
         </div>
 
         <div class="p-3 flex flex-col items-center">
-            <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-teal-700 font-bold text-xs shadow-xs">
+            <div class="w-10 h-10 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 font-bold text-xs shadow-xs">
                 <span>SSMP</span>
             </div>
         </div>
@@ -122,7 +122,7 @@
     <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
         
         <!-- Header Bar -->
-        <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 h-16 px-6 flex items-center justify-between sticky top-0 z-20 shadow-xs">
+        <header class="bg-white/90 backdrop-blur-md border-b border-purple-100 h-16 px-6 flex items-center justify-between sticky top-0 z-20 shadow-xs">
             <div class="flex items-center gap-4 flex-1 max-w-md">
                 <div class="relative w-full">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 transform -translate-y-1/2"></i>
@@ -131,23 +131,23 @@
                         id="searchInput"
                         oninput="handleSearch(this.value)"
                         placeholder="Cari guru, slot, atau aktiviti..." 
-                        class="w-full pl-10 pr-4 py-2 bg-slate-100 border border-transparent rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:bg-white focus:border-teal-500 transition"
+                        class="w-full pl-10 pr-4 py-2 bg-slate-100 border border-transparent rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:bg-white focus:border-purple-500 transition"
                     />
                 </div>
             </div>
 
             <div class="flex items-center gap-3">
                 <div id="liveClock" class="text-xs font-mono font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 hidden sm:flex items-center gap-1.5">
-                    <i data-lucide="clock" class="w-3.5 h-3.5 text-teal-600"></i>
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-600"></i>
                     <span id="clockText">00:00:00</span>
                 </div>
-                <button id="notifyBtn" onclick="togglePushNotifications()" class="text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-slate-100 text-slate-700 border-slate-200 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-300 cursor-pointer" title="Aktifkan Notifikasi Skrin Automatik">
-                    <i data-lucide="bell-ring" class="w-3.5 h-3.5 text-teal-600"></i>
+                <button id="notifyBtn" onclick="togglePushNotifications()" class="text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-slate-100 text-slate-700 border-slate-200 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300 cursor-pointer" title="Aktifkan Notifikasi Skrin Automatik">
+                    <i data-lucide="bell-ring" class="w-3.5 h-3.5 text-purple-600"></i>
                     <span id="notifyBtnText">Aktifkan Notifikasi</span>
                 </button>
                 <button onclick="showAlert('info', '🔔 Tiada notifikasi baharu buat masa ini.')" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition relative cursor-pointer">
                     <i data-lucide="bell" class="w-4 h-4"></i>
-                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-teal-500 rounded-full"></span>
+                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-purple-500 rounded-full"></span>
                 </button>
             </div>
         </header>
@@ -171,29 +171,29 @@
             </div>
 
             <div id="tab-content-utama" class="space-y-6">
-                <!-- Hero Banner with Athletic Emerald & Teal Theme -->
-                <div class="bg-gradient-to-r from-teal-700 via-emerald-600 to-cyan-700 rounded-3xl p-6 md:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden border-4 border-teal-300/40">
+                <!-- Hero Banner with Soft Purple & Indigo Theme -->
+                <div class="bg-gradient-to-r from-purple-800 via-indigo-700 to-purple-600 rounded-3xl p-6 md:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden border-4 border-purple-300/40">
 
                     <!-- Banner Main Header & Info -->
                     <div class="space-y-3 z-10">
                         <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
                             Bilik Multimedia SSMP
                         </h1>
-                        <p class="text-xs text-teal-100 font-medium leading-relaxed bg-black/10 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
+                        <p class="text-xs text-purple-100 font-medium leading-relaxed bg-black/10 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
                             Sistem Tempahan Rasmi (Pilih Slot Mula & Slot Akhir • Tempahan Boleh Dibuat Untuk Hari Ini & Esok).
                         </p>
                     </div>
 
-                    <!-- Cartoon Mascot Graphic -->
+                    <!-- Mascot Graphic & Quick Stats -->
                     <div class="mt-6 md:mt-0 z-10 flex flex-col sm:flex-row items-center gap-4">
                         <div class="relative w-24 h-24 md:w-28 md:h-28 shrink-0 cartoon-mascot cursor-pointer hover:scale-110 transition-transform" onclick="triggerMascotRoar()">
                             <svg viewBox="0 0 200 200" class="w-full h-full filter drop-shadow-lg">
                                 <!-- Tiger Body -->
                                 <path d="M50 140 Q100 120 150 140 Q160 190 40 190 Z" fill="#f97316" stroke="#c2410c" stroke-width="5"/>
-                                <!-- Headphones Band with Teal Accent -->
-                                <path d="M45 75 A 60 60 0 0 1 155 75" fill="none" stroke="#0d9488" stroke-width="12" stroke-linecap="round"/>
-                                <rect x="30" y="65" width="22" height="35" rx="8" fill="#0f766e" stroke="#134e4a" stroke-width="4"/>
-                                <rect x="148" y="65" width="22" height="35" rx="8" fill="#0f766e" stroke="#134e4a" stroke-width="4"/>
+                                <!-- Headphones Band with Purple Accent -->
+                                <path d="M45 75 A 60 60 0 0 1 155 75" fill="none" stroke="#9333ea" stroke-width="12" stroke-linecap="round"/>
+                                <rect x="30" y="65" width="22" height="35" rx="8" fill="#6b21a8" stroke="#581c87" stroke-width="4"/>
+                                <rect x="148" y="65" width="22" height="35" rx="8" fill="#6b21a8" stroke="#581c87" stroke-width="4"/>
                                 <!-- Tiger Head -->
                                 <circle cx="100" cy="95" r="50" fill="#fb923c" stroke="#c2410c" stroke-width="5"/>
                                 <!-- Ears -->
@@ -215,10 +215,10 @@
                                 <!-- Tiger Stripes -->
                                 <path d="M100 50 L100 62 M85 55 L92 64 M115 55 L108 64" stroke="#7c2d12" stroke-width="4" stroke-linecap="round"/>
                                 <path d="M52 95 L64 95 M148 95 L136 95" stroke="#7c2d12" stroke-width="4" stroke-linecap="round"/>
-                                <!-- Cute Glasses / Visor -->
-                                <rect x="70" y="78" width="24" height="18" rx="5" fill="#38bdf8" fill-opacity="0.5" stroke="#0284c7" stroke-width="3"/>
-                                <rect x="106" y="78" width="24" height="18" rx="5" fill="#38bdf8" fill-opacity="0.5" stroke="#0284c7" stroke-width="3"/>
-                                <line x1="94" y1="87" x2="106" y2="87" stroke="#0284c7" stroke-width="3"/>
+                                <!-- Glasses -->
+                                <rect x="70" y="78" width="24" height="18" rx="5" fill="#c084fc" fill-opacity="0.5" stroke="#9333ea" stroke-width="3"/>
+                                <rect x="106" y="78" width="24" height="18" rx="5" fill="#c084fc" fill-opacity="0.5" stroke="#9333ea" stroke-width="3"/>
+                                <line x1="94" y1="87" x2="106" y2="87" stroke="#9333ea" stroke-width="3"/>
                             </svg>
                         </div>
 
@@ -226,11 +226,11 @@
                         <div class="flex sm:flex-col gap-2">
                             <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl text-center min-w-[100px] cartoon-badge">
                                 <div id="activeReservationsCount" class="text-xl font-black font-outfit text-amber-300">0</div>
-                                <div class="text-[10px] font-extrabold text-teal-100 uppercase tracking-wider">Tempahan</div>
+                                <div class="text-[10px] font-extrabold text-purple-100 uppercase tracking-wider">Tempahan</div>
                             </div>
                             <div class="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl text-center min-w-[100px] cartoon-badge">
-                                <div id="freeSlotsCount" class="text-xl font-black font-outfit text-emerald-300">15</div>
-                                <div class="text-[10px] font-extrabold text-teal-100 uppercase tracking-wider">Slot Kosong</div>
+                                <div id="freeSlotsCount" class="text-xl font-black font-outfit text-purple-200">15</div>
+                                <div class="text-[10px] font-extrabold text-purple-100 uppercase tracking-wider">Slot Kosong</div>
                             </div>
                         </div>
                     </div>
@@ -239,25 +239,25 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     
                     <!-- Slot Grid Selector (Left 2 Columns) -->
-                    <div class="lg:col-span-2 bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-100 gap-3">
+                    <div class="lg:col-span-2 bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-purple-100 space-y-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-purple-100 gap-3">
                             <div>
                                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 font-outfit">
-                                    <i data-lucide="clock" class="w-4 h-4 text-teal-600"></i>
+                                    <i data-lucide="clock" class="w-4 h-4 text-purple-600"></i>
                                     <span>Pilih Slot Masa (Status Tempahan Bilik Multimedia)</span>
                                 </h2>
                                 <p class="text-xs text-slate-600 font-medium mt-0.5">
-                                    Klik slot pertama untuk <strong class="text-teal-700">Slot Mula</strong>, kemudian klik slot seterusnya untuk <strong class="text-teal-700">Slot Akhir</strong>.
+                                    Klik slot pertama untuk <strong class="text-purple-700">Slot Mula</strong>, kemudian klik slot seterusnya untuk <strong class="text-purple-700">Slot Akhir</strong>.
                                 </p>
                             </div>
 
                             <!-- Date Switcher Selector -->
-                            <div class="bg-teal-50/80 border border-teal-200 p-1.5 rounded-xl flex items-center gap-1 self-stretch sm:self-auto shrink-0">
-                                <i data-lucide="calendar" class="w-4 h-4 text-teal-600 ml-1.5"></i>
+                            <div class="bg-purple-50/80 border border-purple-200 p-1.5 rounded-xl flex items-center gap-1 self-stretch sm:self-auto shrink-0">
+                                <i data-lucide="calendar" class="w-4 h-4 text-purple-600 ml-1.5"></i>
                                 <select 
                                     id="viewDateSelector" 
                                     onchange="changeSelectedDate(this.value)"
-                                    class="bg-white text-xs font-extrabold text-teal-800 py-1 px-2.5 rounded-lg border border-teal-300 focus:outline-none cursor-pointer shadow-2xs"
+                                    class="bg-white text-xs font-extrabold text-purple-800 py-1 px-2.5 rounded-lg border border-purple-300 focus:outline-none cursor-pointer shadow-2xs"
                                 >
                                     <!-- Populated dynamically via JS -->
                                 </select>
@@ -265,12 +265,12 @@
                         </div>
 
                         <div class="flex items-center justify-between text-xs font-bold text-slate-700 pt-1">
-                            <span class="text-teal-700 font-black text-xs flex items-center gap-1">
-                                📅 Paparan Tarikh: <span id="currentViewingDateBadge" class="bg-teal-100 text-teal-900 px-2 py-0.5 rounded-md border border-teal-300 font-mono">--</span>
+                            <span class="text-purple-700 font-black text-xs flex items-center gap-1">
+                                📅 Paparan Tarikh: <span id="currentViewingDateBadge" class="bg-purple-100 text-purple-900 px-2 py-0.5 rounded-md border border-purple-300 font-mono">--</span>
                             </span>
                             <div class="flex items-center gap-3">
                                 <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-slate-100 border border-slate-300 rounded-xs inline-block"></span> Kosong</span>
-                                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-teal-600 rounded-xs inline-block"></span> Dipilih</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-purple-600 rounded-xs inline-block"></span> Dipilih</span>
                                 <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 bg-rose-600 rounded-xs inline-block"></span> Ditempah</span>
                             </div>
                         </div>
@@ -282,10 +282,10 @@
                     </div>
 
                     <!-- Booking Form (Right Column) -->
-                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-purple-100 flex flex-col justify-between">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100 font-outfit flex items-center gap-2">
-                                <i data-lucide="plus-circle" class="w-4 h-4 text-teal-600"></i>
+                            <h2 class="text-sm font-bold text-slate-800 mb-4 pb-2 border-b border-purple-100 font-outfit flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-4 h-4 text-purple-600"></i>
                                 <span>Borang Tempahan Bilik Multimedia</span>
                             </h2>
                             
@@ -297,7 +297,7 @@
                                         id="teacherName" 
                                         required
                                         placeholder=""
-                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-400"
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50 placeholder:text-slate-400"
                                     />
                                 </div>
 
@@ -307,7 +307,7 @@
                                         <select 
                                             id="classLevel"
                                             required
-                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 cursor-pointer"
+                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50 cursor-pointer"
                                         >
                                             <option value="">-- Pilih --</option>
                                             <option value="Darjah 5">Darjah 5</option>
@@ -326,7 +326,7 @@
                                             id="classNameSelect"
                                             required
                                             onchange="handleClassNameChange(this.value)"
-                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 cursor-pointer mb-1.5"
+                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50 cursor-pointer mb-1.5"
                                         >
                                             <option value="">-- Pilih Kelas --</option>
                                             <option value="Berlian">Berlian</option>
@@ -341,7 +341,7 @@
                                             type="text" 
                                             id="className" 
                                             placeholder="Cth: 5 Arif / 4 Berlian"
-                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-400 hidden"
+                                            class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50 placeholder:text-slate-400 hidden"
                                         />
                                     </div>
                                 </div>
@@ -352,11 +352,11 @@
                                         id="bookingDateSelect"
                                         required
                                         onchange="changeSelectedDate(this.value)"
-                                        class="w-full p-2.5 border border-teal-300 rounded-xl text-xs font-black bg-teal-50 text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+                                        class="w-full p-2.5 border border-purple-300 rounded-xl text-xs font-black bg-purple-50 text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
                                     >
                                         <!-- Dynamic Date Options -->
                                     </select>
-                                    <span class="text-[11px] text-teal-700 font-bold mt-1 block">📌 Boleh tempah untuk Hari Ini & Esok (1 hari lebih awal).</span>
+                                    <span class="text-[11px] text-purple-700 font-bold mt-1 block">📌 Boleh tempah untuk Hari Ini & Esok (1 hari lebih awal).</span>
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-2">
@@ -388,7 +388,7 @@
                                         id="bookingPurposeSelect"
                                         required
                                         onchange="handlePurposeChange(this.value)"
-                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 cursor-pointer mb-1.5"
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50 cursor-pointer mb-1.5"
                                     >
                                         <option value="">-- Pilih Tujuan --</option>
                                         <option value="PdP">PdP</option>
@@ -402,13 +402,13 @@
                                         type="text" 
                                         id="bookingPurpose" 
                                         placeholder="Nyatakan tujuan / aktiviti..."
-                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50 placeholder:text-slate-400 hidden"
+                                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50 placeholder:text-slate-400 hidden"
                                     />
                                 </div>
 
                                 <button 
                                     type="submit" 
-                                    class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 cursor-pointer text-xs transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+                                    class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 cursor-pointer text-xs transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
                                 >
                                     <i data-lucide="send" class="w-4 h-4"></i>
                                     <span>Tempah Sekarang</span>
@@ -420,13 +420,13 @@
                 </div>
 
                 <!-- Reservations List -->
-                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100 flex items-center justify-between font-outfit">
+                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-purple-100 space-y-4">
+                    <div class="text-sm font-bold text-slate-800 pb-2 border-b border-purple-100 flex items-center justify-between font-outfit">
                         <span class="flex items-center gap-2">
                             <span>Senarai Tempahan:</span>
-                            <span id="reservationListDateTag" class="text-xs bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-lg border border-teal-300 font-extrabold">--</span>
+                            <span id="reservationListDateTag" class="text-xs bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-lg border border-purple-300 font-extrabold">--</span>
                         </span>
-                        <span id="badgeCount" class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full font-bold">
+                        <span id="badgeCount" class="text-xs bg-purple-50 text-purple-700 border border-purple-200 px-3 py-1 rounded-full font-bold">
                             0 Rekod Aktif
                         </span>
                     </div>
@@ -439,11 +439,11 @@
 
             <!-- Tab Content Jadual -->
             <div id="tab-content-jadual" class="hidden space-y-6">
-                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-slate-100 gap-3">
+                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-purple-100 space-y-4">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-purple-100 gap-3">
                         <div>
                             <h2 class="text-base font-bold text-slate-800 font-outfit flex items-center gap-2">
-                                <i data-lucide="calendar" class="w-5 h-5 text-teal-600"></i>
+                                <i data-lucide="calendar" class="w-5 h-5 text-purple-600"></i>
                                 <span>Jadual Penuh Slot Masa Bilik Multimedia SSMP</span>
                             </h2>
                             <p class="text-xs text-slate-500 font-medium mt-0.5">Senarai rasmi 15 slot masa operasi harian untuk latihan dan analisis atlet sekolah.</p>
@@ -453,7 +453,7 @@
                             <select 
                                 id="scheduleDateSelector" 
                                 onchange="changeSelectedDate(this.value)" 
-                                class="text-xs font-bold text-teal-800 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-xl focus:outline-none cursor-pointer"
+                                class="text-xs font-bold text-purple-800 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl focus:outline-none cursor-pointer"
                             ></select>
                         </div>
                     </div>
@@ -467,19 +467,19 @@
             <!-- Tab Content Statistik -->
             <div id="tab-content-statistik" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-purple-100 shadow-sm">
                         <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Kapasiti Slot</div>
                         <div class="text-3xl font-black text-slate-800 font-outfit mt-1">15 Slot / Hari</div>
-                        <div class="text-xs text-teal-600 font-bold mt-2">7:30 AM - 3:00 PM</div>
+                        <div class="text-xs text-purple-600 font-bold mt-2">7:30 AM - 3:00 PM</div>
                     </div>
-                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-purple-100 shadow-sm">
                         <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tempahan Tarikh Dipilih</div>
-                        <div id="statActiveCount" class="text-3xl font-black text-teal-600 font-outfit mt-1">0</div>
+                        <div id="statActiveCount" class="text-3xl font-black text-purple-600 font-outfit mt-1">0</div>
                         <div class="text-xs text-slate-500 font-medium mt-2">Status Semasa Aktif</div>
                     </div>
-                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-purple-100 shadow-sm">
                         <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kadar Penggunaan Tarikh</div>
-                        <div id="statUsageRate" class="text-3xl font-black text-emerald-600 font-outfit mt-1">0%</div>
+                        <div id="statUsageRate" class="text-3xl font-black text-indigo-600 font-outfit mt-1">0%</div>
                         <div class="text-xs text-slate-500 font-medium mt-2">Daripada Jumlah Slot Harian</div>
                     </div>
                 </div>
@@ -487,11 +487,11 @@
 
             <!-- Tab Content Tetapan (Admin Preserved) -->
             <div id="tab-content-tetapan" class="hidden space-y-6">
-                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-purple-100 space-y-6">
+                    <div class="flex items-center justify-between pb-3 border-b border-purple-100">
                         <div>
                             <h2 class="text-base font-bold text-slate-800 font-outfit flex items-center gap-2">
-                                <i data-lucide="settings" class="w-5 h-5 text-teal-600"></i>
+                                <i data-lucide="settings" class="w-5 h-5 text-purple-600"></i>
                                 <span>Tetapan Sistem (Admin SSMP)</span>
                             </h2>
                             <p class="text-xs text-slate-500 mt-0.5">Urus pengumuman rasmi, dan semak atau batalkan slot tempahan pengguna.</p>
@@ -525,35 +525,14 @@
                         </div>
                     </div>
 
-                    <!-- Modul 2: Tetapan Emel Notifikasi -->
-                    <div class="bg-teal-50/60 border border-teal-200 p-5 rounded-2xl space-y-3">
-                        <h3 class="text-xs font-black text-teal-900 uppercase tracking-wide flex items-center gap-2">
-                            <i data-lucide="mail" class="w-4 h-4 text-teal-700"></i>
-                            <span>Tetapan Sistem & Notifikasi Emel</span>
-                        </h3>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Emel Penerima Notifikasi Automatik:</label>
-                            <input 
-                                type="email" 
-                                id="adminEmailInput" 
-                                placeholder="g-66154373@moe-dl.edu.my" 
-                                value="g-66154373@moe-dl.edu.my"
-                                class="w-full p-2.5 border border-teal-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
-                            />
-                        </div>
-                        <button onclick="saveAdminEmailSetting()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-xl text-xs cursor-pointer transition shadow-xs flex items-center gap-1.5">
-                            <i data-lucide="save" class="w-4 h-4"></i> Simpan Tetapan Emel
-                        </button>
-                    </div>
-
-                    <!-- Modul 3: Lihat & Batal Slot Tempahan -->
+                    <!-- Modul 2: Lihat & Batal Slot Tempahan -->
                     <div class="space-y-3 pt-2">
                         <div class="flex items-center justify-between">
                             <h3 class="text-xs font-black text-slate-800 uppercase tracking-wide flex items-center gap-2">
-                                <i data-lucide="list-checks" class="w-4 h-4 text-teal-600"></i>
+                                <i data-lucide="list-checks" class="w-4 h-4 text-purple-600"></i>
                                 <span>Pengurusan & Pembatalan Keseluruhan Tempahan (Semua Tarikh)</span>
                             </h3>
-                            <span id="adminSlotCountBadge" class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-0.5 rounded-full font-bold">0 Slot</span>
+                            <span id="adminSlotCountBadge" class="text-xs bg-purple-50 text-purple-700 border border-purple-200 px-3 py-0.5 rounded-full font-bold">0 Slot</span>
                         </div>
 
                         <div id="adminBookingsTable" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-white max-h-96 overflow-y-auto">
@@ -568,7 +547,7 @@
 
     <!-- Digital Token Modal -->
     <div id="receiptModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl space-y-5 border-4 border-teal-300 animate-fadeIn relative">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl space-y-5 border-4 border-purple-300 animate-fadeIn relative">
             
             <button onclick="closeReceiptModal()" class="no-print absolute top-5 right-5 text-slate-400 hover:text-slate-600 cursor-pointer">
                 <i data-lucide="x" class="w-5 h-5"></i>
@@ -576,18 +555,18 @@
 
             <div class="text-center space-y-2 pb-4 border-b border-dashed border-slate-200 relative">
                 <!-- Cartoon Verification Stamp -->
-                <div class="absolute -top-1 left-2 transform -rotate-12 bg-amber-400 text-teal-950 font-black text-[10px] px-2.5 py-1 rounded-lg border-2 border-amber-600 shadow-sm flex items-center gap-1 select-none">
+                <div class="absolute -top-1 left-2 transform -rotate-12 bg-amber-400 text-purple-950 font-black text-[10px] px-2.5 py-1 rounded-lg border-2 border-amber-600 shadow-sm flex items-center gap-1 select-none">
                     <span>🐯</span> SSMP VERIFIED
                 </div>
 
-                <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-2 border-2 border-teal-300 shadow-xs">
+                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-2 border-2 border-purple-300 shadow-xs">
                     <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
                 <h3 class="text-lg font-black text-slate-800 font-outfit uppercase tracking-tight flex items-center justify-center gap-1.5">
                     <span>TOKEN DIGITAL TEMPAHAN</span>
                     <span>🎟️</span>
                 </h3>
-                <p class="text-xs font-bold text-teal-600">SEKOLAH SUKAN MALAYSIA PAHANG</p>
+                <p class="text-xs font-bold text-purple-600">SEKOLAH SUKAN MALAYSIA PAHANG</p>
                 <div class="text-[10px] font-mono text-slate-400 font-semibold" id="receiptTokenId">TOKEN-00000000</div>
             </div>
 
@@ -598,11 +577,11 @@
                 </div>
                 <div class="flex justify-between py-1 border-b border-slate-100">
                     <span class="text-slate-400 font-medium">Kelas / Tingkatan:</span>
-                    <span id="receiptClass" class="font-bold text-teal-700 text-right"></span>
+                    <span id="receiptClass" class="font-bold text-purple-700 text-right"></span>
                 </div>
                 <div class="flex justify-between py-1 border-b border-slate-100">
                     <span class="text-slate-400 font-medium">Tarikh Tempahan:</span>
-                    <span id="receiptDate" class="font-bold text-teal-800 font-mono text-right"></span>
+                    <span id="receiptDate" class="font-bold text-purple-800 font-mono text-right"></span>
                 </div>
                 <div class="flex justify-between py-1 border-b border-slate-100">
                     <span class="text-slate-400 font-medium">Masa & Slot:</span>
@@ -615,7 +594,7 @@
             </div>
 
             <div class="pt-4 flex items-center justify-end gap-3 no-print border-t border-slate-100">
-                <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                <button onclick="window.print()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
                     <i data-lucide="printer" class="w-4 h-4"></i> Cetak Token Digital
                 </button>
                 <button onclick="closeReceiptModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 px-4 rounded-xl text-xs cursor-pointer transition">
@@ -633,13 +612,13 @@
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
 
-            <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mx-auto">
                 <i data-lucide="shield-lock" class="w-6 h-6"></i>
             </div>
 
             <div>
-                <h3 class="text-base font-bold text-slate-800 font-outfit">Akses Tetapan Admin</h3>
-                <p class="text-xs text-slate-500 mt-1">Sila masukkan kata laluan keselamatan untuk membuka ruangan tetapan sistem.</p>
+                <h3 class="text-base font-bold text-slate-800 font-outfit">Sahkan Akses Admin</h3>
+                <p class="text-xs text-slate-500 mt-1">Fungsi ini khusus untuk Admin. Masukkan kata laluan keselamatan untuk meneruskan.</p>
             </div>
 
             <form onsubmit="handleAdminAuthSubmit(event)" class="space-y-4">
@@ -648,15 +627,15 @@
                         type="password" 
                         id="adminPasswordInput"
                         placeholder="Masukkan Kata Laluan (PIN)" 
-                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 text-center focus:outline-none focus:ring-2 focus:ring-teal-500 bg-slate-50"
+                        class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 text-center focus:outline-none focus:ring-2 focus:ring-purple-500 bg-slate-50"
                     />
                 </div>
                 <div class="flex items-center gap-2">
                     <button type="button" onclick="closeAdminAuthModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 rounded-xl text-xs transition cursor-pointer">
                         Batal
                     </button>
-                    <button type="submit" class="w-1/2 bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl text-xs transition cursor-pointer shadow-xs">
-                        Buka Akses
+                    <button type="submit" class="w-1/2 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition cursor-pointer shadow-xs">
+                        Sahkan & Teruskan
                     </button>
                 </div>
             </form>
@@ -689,14 +668,14 @@
         // Active Date Selection State
         let currentSelectedDate = "";
 
-        // Admin authentication state
+        // Admin authentication state & pending action tracking
         let isAdminUnlocked = false;
+        let pendingDeleteId = null;
         let pushNotificationsEnabled = false;
 
         let selectedStartSlot = null;
         let selectedEndSlot = null;
         let currentAnnouncement = localStorage.getItem('ssmp_announcement') || "";
-        let adminEmailRecipient = localStorage.getItem('ssmp_admin_email') || "g-66154373@moe-dl.edu.my";
 
         // Helper to get local YYYY-MM-DD date string for today
         function getTodayString() {
@@ -746,7 +725,7 @@
             const alertBox = document.getElementById('alertBox');
             if (!alertBox) return;
 
-            let bgClass = "bg-teal-100 border-teal-300 text-teal-900";
+            let bgClass = "bg-purple-100 border-purple-300 text-purple-900";
             let icon = "info";
 
             if (type === 'error') {
@@ -805,9 +784,6 @@
             const announceInput = document.getElementById('adminAnnouncementInput');
             if (announceInput) announceInput.value = currentAnnouncement;
             renderAnnouncementDisplay();
-
-            const emailInput = document.getElementById('adminEmailInput');
-            if (emailInput) emailInput.value = adminEmailRecipient;
 
             setupDateSelectors();
             updateClock();
@@ -918,10 +894,10 @@
             if (!btn || !txt) return;
 
             if (enabled) {
-                btn.className = "text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-teal-50 text-teal-700 border-teal-300 shadow-xs cursor-pointer";
+                btn.className = "text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-purple-50 text-purple-700 border-purple-300 shadow-xs cursor-pointer";
                 txt.innerText = "Notifikasi: Aktif";
             } else {
-                btn.className = "text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-slate-100 text-slate-600 border-slate-200 hover:bg-teal-50 hover:text-teal-700 cursor-pointer";
+                btn.className = "text-xs font-bold px-3 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-slate-100 text-slate-600 border-slate-200 hover:bg-purple-50 hover:text-purple-700 cursor-pointer";
                 txt.innerText = "Aktifkan Notifikasi";
             }
             safeCreateIcons();
@@ -946,7 +922,7 @@
                 if (t === tabName) {
                     content.classList.remove('hidden');
                     content.classList.add('animate-fadeIn');
-                    navBtn.className = "w-10 h-10 md:w-full md:h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center transition cursor-pointer shadow-xs font-bold relative";
+                    navBtn.className = "w-10 h-10 md:w-full md:h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center transition cursor-pointer shadow-xs font-bold relative";
                 } else {
                     content.classList.add('hidden');
                     content.classList.remove('animate-fadeIn');
@@ -987,9 +963,9 @@
                 if (isBooked) {
                     baseClasses += "bg-rose-50 border-rose-200 text-rose-800 opacity-80 cursor-not-allowed";
                 } else if (isSelected) {
-                    baseClasses += "bg-teal-600 border-teal-700 text-white shadow-md scale-[1.02] z-10";
+                    baseClasses += "bg-purple-600 border-purple-700 text-white shadow-md scale-[1.02] z-10";
                 } else {
-                    baseClasses += "bg-slate-50 border-slate-200 hover:border-teal-400 hover:bg-teal-50/50 text-slate-700";
+                    baseClasses += "bg-slate-50 border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 text-slate-700";
                 }
 
                 card.className = baseClasses;
@@ -997,12 +973,12 @@
 
                 card.innerHTML = `
                     <div class="flex items-center justify-between w-full">
-                        <span class="text-[10px] md:text-xs font-bold ${isSelected ? 'text-teal-100' : isBooked ? 'text-rose-400' : 'text-slate-400'} uppercase font-jakarta tracking-wide">${slot.label}</span>
+                        <span class="text-[10px] md:text-xs font-bold ${isSelected ? 'text-purple-100' : isBooked ? 'text-rose-400' : 'text-slate-400'} uppercase font-jakarta tracking-wide">${slot.label}</span>
                         ${isBooked ? '<i data-lucide="lock" class="w-3.5 h-3.5 text-rose-500"></i>' : isSelected ? '<i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-white"></i>' : ''}
                     </div>
                     <div class="mt-1 font-jakarta">
                         <div class="text-xs md:text-sm font-extrabold ${isSelected ? 'text-white' : 'text-slate-800'}">${slot.time}</div>
-                        <div class="text-[10px] md:text-[11px] font-bold ${isSelected ? 'text-teal-100' : isBooked ? 'text-rose-600' : 'text-teal-600'} mt-0.5">
+                        <div class="text-[10px] md:text-[11px] font-bold ${isSelected ? 'text-purple-100' : isBooked ? 'text-rose-600' : 'text-purple-600'} mt-0.5">
                             ${isBooked ? 'DITEMPAH' : isSelected ? 'DIPILIH' : 'KOSONG'}
                         </div>
                     </div>
@@ -1023,7 +999,7 @@
             if (selectedStartSlot) {
                 const sObj = TIME_SLOTS.find(s => s.id === selectedStartSlot);
                 startInput.value = `${sObj.label} (${sObj.time.split(' - ')[0]})`;
-                startInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-teal-700 border-teal-300 bg-teal-50";
+                startInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-purple-700 border-purple-300 bg-purple-50";
             } else {
                 startInput.value = "Pilih di grid";
                 startInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-slate-400 border-slate-200 bg-slate-50";
@@ -1032,11 +1008,11 @@
             if (selectedEndSlot) {
                 const eObj = TIME_SLOTS.find(s => s.id === selectedEndSlot);
                 endInput.value = `${eObj.label} (${eObj.time.split(' - ')[1]})`;
-                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-teal-700 border-teal-300 bg-teal-50";
+                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-purple-700 border-purple-300 bg-purple-50";
             } else if (selectedStartSlot) {
                 const sObj = TIME_SLOTS.find(s => s.id === selectedStartSlot);
                 endInput.value = `${sObj.label} (${sObj.time.split(' - ')[1]})`;
-                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-teal-700 border-teal-300 bg-teal-50";
+                endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-purple-700 border-purple-300 bg-purple-50";
             } else {
                 endInput.value = "Pilih di grid";
                 endInput.className = "w-full p-2.5 border rounded-xl text-xs font-bold text-slate-400 border-slate-200 bg-slate-50";
@@ -1063,12 +1039,12 @@
 
             if (activeBookings.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full py-8 text-center bg-teal-50/50 rounded-2xl border-2 border-dashed border-teal-200 p-6">
-                        <div class="w-16 h-16 mx-auto mb-3 text-teal-400 flex items-center justify-center">
+                    <div class="col-span-full py-8 text-center bg-purple-50/50 rounded-2xl border-2 border-dashed border-purple-200 p-6">
+                        <div class="w-16 h-16 mx-auto mb-3 text-purple-400 flex items-center justify-center">
                             <i data-lucide="calendar-x2" class="w-12 h-12"></i>
                         </div>
-                        <h4 class="text-xs font-black text-teal-900 uppercase tracking-wide">Tiada Tempahan Untuk ${formatDateLabel(currentSelectedDate)} 🎬</h4>
-                        <p class="text-[11px] font-semibold text-teal-600/80 mt-1">Bilik Multimedia masih kosong! Pilih slot pada grid di atas untuk buat tempahan.</p>
+                        <h4 class="text-xs font-black text-purple-900 uppercase tracking-wide">Tiada Tempahan Untuk ${formatDateLabel(currentSelectedDate)} 🎬</h4>
+                        <p class="text-[11px] font-semibold text-purple-600/80 mt-1">Bilik Multimedia masih kosong! Pilih slot pada grid di atas untuk buat tempahan.</p>
                     </div>
                 `;
                 safeCreateIcons();
@@ -1080,7 +1056,7 @@
                 const endObj = TIME_SLOTS.find(s => s.id === booking.endSlot);
 
                 const card = document.createElement('div');
-                card.className = 'bg-slate-50/80 border-2 border-teal-100 p-4 rounded-2xl space-y-3 hover:border-teal-300 transition shadow-2xs cartoon-badge';
+                card.className = 'bg-slate-50/80 border-2 border-purple-100 p-4 rounded-2xl space-y-3 hover:border-purple-300 transition shadow-2xs cartoon-badge';
 
                 card.innerHTML = `
                     <div class="flex items-start justify-between">
@@ -1090,7 +1066,7 @@
                                 <span>${booking.teacher}</span>
                                 <span class="text-xs">🏆</span>
                             </h3>
-                            <p class="text-[11px] font-bold text-teal-700">${booking.classLevel} ${booking.className}</p>
+                            <p class="text-[11px] font-bold text-purple-700">${booking.classLevel} ${booking.className}</p>
                         </div>
                         <span class="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2.5 py-1 rounded-full border border-emerald-300 shadow-2xs flex items-center gap-1">
                             <span>✅</span> Disahkan
@@ -1099,7 +1075,7 @@
                     
                     <div class="bg-white p-2.5 rounded-xl border border-slate-200 space-y-1 text-xs">
                         <div class="flex items-center gap-1.5 text-slate-700 font-bold">
-                            <i data-lucide="clock" class="w-3.5 h-3.5 text-teal-600"></i>
+                            <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-600"></i>
                             <span>Slot ${booking.startSlot} - ${booking.endSlot}</span>
                             <span class="text-[10px] text-slate-400 font-normal">(${startObj.time.split(' - ')[0]} - ${endObj.time.split(' - ')[1]})</span>
                         </div>
@@ -1107,11 +1083,12 @@
                     </div>
 
                     <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between gap-2">
-                        <button onclick="openReceiptModal('${booking.id}')" class="text-[11px] font-black text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-lg border border-teal-200 transition flex items-center gap-1 cursor-pointer">
+                        <button onclick="openReceiptModal('${booking.id}')" class="text-[11px] font-black text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 px-2.5 py-1 rounded-lg border border-purple-200 transition flex items-center gap-1 cursor-pointer">
                             <i data-lucide="ticket" class="w-3.5 h-3.5"></i> Token Digital 🎟️
                         </button>
-                        <button onclick="deleteBooking('${booking.id}')" class="text-[11px] font-bold text-rose-500 hover:text-rose-700 flex items-center gap-1 cursor-pointer">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Padam
+                        <button onclick="deleteBooking('${booking.id}')" class="text-[11px] font-bold text-rose-500 hover:text-rose-700 flex items-center gap-1 cursor-pointer" title="Hanya Admin boleh memadam">
+                            <i data-lucide="lock" class="w-3 h-3"></i>
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Padam (Admin)
                         </button>
                     </div>
                 `;
@@ -1173,7 +1150,7 @@
 
                 row.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg ${booking ? 'bg-rose-100 text-rose-700' : 'bg-teal-100 text-teal-700'} flex items-center justify-center font-bold text-xs shrink-0 font-outfit">
+                        <span class="w-8 h-8 rounded-lg ${booking ? 'bg-rose-100 text-rose-700' : 'bg-purple-100 text-purple-700'} flex items-center justify-center font-bold text-xs shrink-0 font-outfit">
                             ${slot.id}
                         </span>
                         <div>
@@ -1184,7 +1161,7 @@
                         </div>
                     </div>
                     ${!booking ? `
-                        <button onclick="quickSelectSlot(${slot.id})" class="text-xs font-bold text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer self-end sm:self-auto">
+                        <button onclick="quickSelectSlot(${slot.id})" class="text-xs font-bold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-1.5 rounded-xl transition cursor-pointer self-end sm:self-auto">
                             Pilih Slot Ini
                         </button>
                     ` : `
@@ -1281,14 +1258,24 @@
             openReceiptModal(bookingId);
         }
 
+        // Delete booking - RESTRICTED TO ADMIN ONLY
         function deleteBooking(bookingId) {
-            bookings = bookings.filter(b => b.id !== bookingId);
-            saveBookings();
-            refreshUIForSelectedDate();
-            showAlert('info', 'Rekod tempahan telah dipadamkan.');
+            if (!isAdminUnlocked) {
+                pendingDeleteId = bookingId;
+                promptAdminPassword();
+                showAlert('info', 'Fungsi padam terhad untuk Admin sahaja. Sila masukkan kata laluan keselamatan.');
+                return;
+            }
+
+            if (confirm('Adakah anda pasti ingin memadamkan rekod tempahan ini?')) {
+                bookings = bookings.filter(b => b.id !== bookingId);
+                saveBookings();
+                refreshUIForSelectedDate();
+                showAlert('info', 'Rekod tempahan telah berjaya dipadamkan oleh Admin.');
+            }
         }
 
-        // Render table of bookings inside Admin Tetapan panel (All Dates Preserved)
+        // Render table of bookings inside Admin Tetapan panel
         function renderAdminBookingsTable() {
             const container = document.getElementById('adminBookingsTable');
             const badge = document.getElementById('adminSlotCountBadge');
@@ -1320,18 +1307,18 @@
                 row.innerHTML = `
                     <div>
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="font-mono text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">${booking.id}</span>
-                            <span class="text-xs font-extrabold text-teal-900 bg-teal-100 px-2 py-0.5 rounded border border-teal-300">${formatDateLabel(booking.date)}</span>
+                            <span class="font-mono text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">${booking.id}</span>
+                            <span class="text-xs font-extrabold text-purple-900 bg-purple-100 px-2 py-0.5 rounded border border-purple-300">${formatDateLabel(booking.date)}</span>
                             <span class="text-xs font-bold text-slate-800">${booking.teacher}</span>
                             <span class="text-xs font-semibold text-slate-500">(${booking.classLevel} ${booking.className})</span>
                         </div>
-                        <div class="text-[11px] font-semibold text-teal-700 mt-1">
+                        <div class="text-[11px] font-semibold text-purple-700 mt-1">
                             Slot ${booking.startSlot} hingga ${booking.endSlot} • ${startObj.time.split(' - ')[0]} - ${endObj.time.split(' - ')[1]}
                         </div>
                         <div class="text-[11px] text-slate-500 mt-0.5 italic">Tujuan: ${booking.purpose}</div>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="openReceiptModal('${booking.id}')" class="text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-xl transition cursor-pointer">
+                        <button onclick="openReceiptModal('${booking.id}')" class="text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-1.5 rounded-xl transition cursor-pointer">
                             Token
                         </button>
                         <button onclick="deleteBooking('${booking.id}')" class="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1">
@@ -1369,19 +1356,6 @@
             showAlert('info', 'Pengumuman pentadbir telah dipadamkan.');
         }
 
-        function saveAdminEmailSetting() {
-            const input = document.getElementById('adminEmailInput');
-            if (!input) return;
-            const email = input.value.trim();
-            if (!email) {
-                showAlert('error', 'Sila masukkan alamat emel yang sah.');
-                return;
-            }
-            adminEmailRecipient = email;
-            localStorage.setItem('ssmp_admin_email', adminEmailRecipient);
-            showAlert('success', `Alamat emel pentadbir berjaya disimpan: ${adminEmailRecipient}`);
-        }
-
         function renderAnnouncementDisplay() {
             const banner = document.getElementById('announcementBanner');
             const display = document.getElementById('announcementTextDisplay');
@@ -1407,6 +1381,7 @@
         }
 
         function closeAdminAuthModal() {
+            pendingDeleteId = null;
             document.getElementById('adminAuthModal').classList.add('hidden');
         }
 
@@ -1458,8 +1433,15 @@
             if (pin === '1234' || pin === 'admin') {
                 isAdminUnlocked = true;
                 closeAdminAuthModal();
-                switchTab('tetapan');
-                showAlert('success', 'Akses Tetapan Admin telah dibuka.');
+                
+                if (pendingDeleteId) {
+                    const idToDelete = pendingDeleteId;
+                    pendingDeleteId = null;
+                    deleteBooking(idToDelete);
+                } else {
+                    switchTab('tetapan');
+                    showAlert('success', 'Akses Tetapan Admin telah dibuka.');
+                }
             } else {
                 showAlert('error', 'Kata laluan salah. Akses ditolak.');
             }
@@ -1467,6 +1449,7 @@
 
         function lockAdminSession() {
             isAdminUnlocked = false;
+            pendingDeleteId = null;
             switchTab('utama');
             showAlert('info', 'Sesi Tetapan Admin telah dikunci.');
         }
